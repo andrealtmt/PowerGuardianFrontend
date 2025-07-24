@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -9,14 +10,21 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  public showPassword = false;
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
   loginForm: FormGroup;
   loading = false;
   errorMessage = '';
+  fieldErrors: { [key: string]: string } = {};
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private titleService: Title
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required]],
@@ -24,11 +32,16 @@ export class LoginComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.titleService.setTitle('Iniciar Sesión | PowerGuardian');
+  }
+
   onSubmit(): void {
     if (this.loginForm.invalid) return;
 
     this.loading = true;
     this.errorMessage = '';
+    this.fieldErrors = {};
 
     const credentials = this.loginForm.value;
 
@@ -46,8 +59,15 @@ export class LoginComponent {
         }
       },
       error: (err) => {
-        this.errorMessage = err?.error || 'Credenciales incorrectas o error de conexión.';
         this.loading = false;
+        let msg = err?.error;
+        if (typeof msg === 'string') {
+          if (msg.toLowerCase().includes('usuario')) this.fieldErrors['email'] = msg;
+          else if (msg.toLowerCase().includes('credencial') || msg.toLowerCase().includes('contraseña')) this.fieldErrors['password'] = msg;
+          else this.errorMessage = msg;
+        } else {
+          this.errorMessage = 'Credenciales incorrectas o error de conexión.';
+        }
       }
     });
   }

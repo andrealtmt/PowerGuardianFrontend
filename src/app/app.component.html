@@ -1,4 +1,4 @@
-<div style="width: 100%; display: flex; justify-content: flex-end; align-items: center; padding: 1rem; background: #f5f5f5;">
+<div>
   <button *ngIf="authService.isAuthenticated()" (click)="logout()">Cerrar sesión</button>
 </div>
 <router-outlet></router-outlet>

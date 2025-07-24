@@ -1,0 +1,163 @@
+// 🎨 colorcitos
+$verde-oscuro: #67b061;
+$verde-claro: #b5dfb2;
+$azul-oscuro: #3d7bb6;
+$azul-claro: #c4daef;
+$texto-principal: #313132;
+$rojo-error: #d9534f;
+$gris-claro: #818181;
+$gris-oscuro: #525252;
+
+
+// 🅰️ tipografía: poppins
+@font-face {
+  font-family: 'Poppins';
+  src: url('../assets/fonts/poppins/Poppins-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../assets/fonts/poppins/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../assets/fonts/poppins/Poppins-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../assets/fonts/poppins/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+// fuente
+$font-poppins: 'Poppins', sans-serif;
+
+// pesos de fuente
+$font-light: 300;
+$font-regular: 400;
+$font-italic: italic;
+$font-semibold: 600;
+
+$radius: 8px;
+
+body {
+  font-family: $font-poppins;
+  font-weight: $font-regular;
+  color: $texto-principal;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// botón principal
+button {
+  padding: 0.75rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-sizing: border-box;
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+  font-weight: 600;
+}
+
+// inputs
+input, select {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  border: 1.7px solid $gris-claro;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: border-color 0.3s, background-color 0.3s;
+  color: $texto-principal;
+
+  &:focus {
+    outline: none;
+    border-color: $gris-oscuro;
+    background-color: white;
+  }
+}
+
+// iconos en inputs
+.input-icon {
+  position: relative;
+  margin-bottom: 1rem;
+
+  i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $gris-claro;
+    font-size: 1rem;
+  }
+
+  select {
+    color: $texto-principal;
+    appearance: none;
+    transition: border-color 0.3s, background-color 0.3s;
+    font-family: $font-poppins;
+
+    &:focus {
+      outline: none;
+      border-color: $gris-oscuro;
+      background-color: white;
+    }
+  }
+
+  select {
+    option {
+      color: $gris-oscuro;
+    }
+  }
+
+  select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='%23555555' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 0.75rem;
+    padding-right: 2.5rem;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    display: none;
+  }
+}
+
+// estilos para input tipo date
+input[type="date"] {
+  color: $texto-principal;
+}
+
+
+.error {
+  color: $rojo-error;
+  font-size: 0.85rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.75rem;
+  text-align: left;
+  font-weight: $font-semibold;
+}
+
+.success {
+  color: $verde-oscuro;
+  font-size: 0.95rem;
+  margin-top: 0.75rem;
+  text-align: center;
+}

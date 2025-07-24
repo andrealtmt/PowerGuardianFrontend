@@ -9,6 +9,8 @@ import { ClientModule } from './client/client.module';
 import { AdminModule } from './admin/admin.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './shared/services/token.interceptor';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,9 @@ import { TokenInterceptor } from './shared/services/token.interceptor';
     PublicModule,
     ClientModule,
     AdminModule,
+    NgSelectModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     {

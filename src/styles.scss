@@ -1,1 +1,110 @@
-/* You can add global styles to this file, and also import other style files */
+// iconos
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+
+// Fuentes
+@font-face {
+  font-family: 'Poppins';
+  src: url('assets/fonts/poppins/Poppins-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('assets/fonts/poppins/Poppins-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('assets/fonts/poppins/Poppins-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('assets/fonts/poppins/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('assets/fonts/poppins/Poppins-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('assets/fonts/poppins/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('assets/fonts/poppins/Poppins-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('assets/fonts/poppins/Poppins-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('assets/fonts/poppins/Poppins-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+// 🎨 Colores
+$verde-oscuro: #67b061;
+$verde-claro: #b5dfb2;
+$azul-oscuro: #3d7bb6;
+$azul-claro: #c4daef;
+$texto-principal: #313132;
+$rojo-error: #d9534f;
+$gris-claro: #818181;
+$gris-oscuro: #525252;
+
+// 🅰️ Fuente base
+body {
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+  background-color: #f4f7f6;
+  color: $texto-principal;
+  margin: 0;
+}
+
+// ✨ Utilidades simples
+.text-center {
+  text-align: center;
+}
+
+// override button styles
+button {
+  padding: 0.75rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-sizing: border-box;
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+  font-weight: 600;
+}
+
+// override input styles
+input {
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+  font-size: 0.9rem !important;
+
+}

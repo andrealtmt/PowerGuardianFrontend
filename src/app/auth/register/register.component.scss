@@ -1,0 +1,118 @@
+@import 'src/styles/global';
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f4f7f6;
+  padding: 4rem;
+
+  form {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+
+    img {
+      width: 20%;
+    }
+
+    h2 {
+      color: $texto-principal;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      margin-top: 0;
+      font-weight: 600;
+    }
+
+    .error {
+      color: $rojo-error;
+      font-size: 0.85rem;
+      margin-top: -0.5rem;
+      margin-bottom: 0.75rem;
+      text-align: left;
+    }
+
+    .success {
+      color: $verde-oscuro;
+      font-size: 0.95rem;
+      margin-top: 0.75rem;
+      text-align: center;
+    }
+
+    button {
+      width: 100%;
+      background-color: $verde-oscuro;
+      color: white;
+
+      &:hover {
+        background-color: darken($verde-oscuro, 8%);
+      }
+
+      &:disabled {
+        background-color: lighten($verde-oscuro, 20%);
+        cursor: not-allowed;
+      }
+    }
+
+    .register-link {
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+
+      a {
+        color: $azul-oscuro;
+        font-weight: 500;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  .input-icon {
+    position: relative;
+    margin-bottom: 1rem;
+
+    i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: $gris-claro;
+      font-size: 1rem;
+      z-index: 10;
+    }
+
+    &.password-icon {
+      i:last-child {
+        left: auto;
+        right: 1rem;
+        cursor: pointer;
+        color: $gris-claro;
+        transition: color 0.3s;
+
+        &:hover {
+          color: $gris-oscuro;
+        }
+      }
+
+      input {
+        padding-right: 2.5rem;
+      }
+    }
+  }
+}
+
+// Responsive
+@media screen and (max-width: 480px) {
+  .register-container form {
+    padding: 2rem 1.25rem;
+  }
+}

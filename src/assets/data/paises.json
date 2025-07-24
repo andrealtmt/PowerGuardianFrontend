@@ -1,0 +1,7 @@
+[
+  { "codigo": "MX", "nombre": "México" },
+  { "codigo": "AR", "nombre": "Argentina" },
+  { "codigo": "CO", "nombre": "Colombia" },
+  { "codigo": "ES", "nombre": "España" },
+  { "codigo": "US", "nombre": "Estados Unidos" }
+]

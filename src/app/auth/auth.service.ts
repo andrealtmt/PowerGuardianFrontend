@@ -39,4 +39,21 @@ export class AuthService {
   isAuthenticated() {
     return !!this.getToken();
   }
+
+  register(data: any) {
+    const body = {
+      Username: data.username,
+      Password: data.password,
+      ConfirmPassword: data.confirmPassword,
+      Nombres: data.nombres,
+      ApellidoPaterno: data.apellidoPaterno,
+      ApellidoMaterno: data.apellidoMaterno,
+      FechaNacimiento: data.fechaNacimiento,
+      Pais: data.pais,
+      Email: data.email,
+      Telefono: data.telefono,
+      SKU: data.sku
+    };
+    return this.http.post<any>('https://localhost:7009/api/user/register', body);
+  }
 }

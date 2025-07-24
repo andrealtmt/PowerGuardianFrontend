@@ -1,0 +1,94 @@
+<div class="register-container">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <img src="../../../assets/img/logo.png" alt="Logo PowerGuardian"/>
+    <h2>Registro de Cliente</h2>
+
+    <!-- Usuario -->
+    <div class="input-icon">
+      <i class="fas fa-user"></i>
+      <input type="text" placeholder="Nombre de usuario" formControlName="username" />
+    </div>
+    <div class="error" *ngIf="fieldErrors['username']">{{ fieldErrors['username'] }}</div>
+
+    <!-- Contraseña -->
+    <div class="input-icon password-icon">
+      <i class="fas fa-lock"></i>
+      <input [type]="showPassword ? 'text' : 'password'" placeholder="Contraseña" formControlName="password" />
+      <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility('password')" title="Mostrar/Ocultar contraseña"></i>
+    </div>
+    <div class="error" *ngIf="fieldErrors['password']">{{ fieldErrors['password'] }}</div>
+
+    <!-- Confirmar contraseña -->
+    <div class="input-icon password-icon">
+      <i class="fas fa-lock"></i>
+      <input [type]="showConfirmPassword ? 'text' : 'password'" placeholder="Confirmar Contraseña" formControlName="confirmPassword" />
+      <i class="fas" [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility('confirmPassword')" title="Mostrar/Ocultar contraseña"></i>
+    </div>
+    <div class="error" *ngIf="registerForm.errors?.['passwordMismatch'] && (registerForm.get('confirmPassword')?.touched || registerForm.get('confirmPassword')?.dirty)">
+      Las contraseñas no coinciden.
+    </div>
+
+    <!-- Nombres -->
+    <div class="input-icon">
+      <i class="fas fa-id-card"></i>
+      <input type="text" placeholder="Nombres" formControlName="nombres" />
+    </div>
+
+    <!-- Apellidos -->
+    <div class="input-icon">
+      <i class="fas fa-user-tag"></i>
+      <input type="text" placeholder="Apellido Paterno" formControlName="apellidoPaterno" />
+    </div>
+    <div class="input-icon">
+      <i class="fas fa-user-tag"></i>
+      <input type="text" placeholder="Apellido Materno" formControlName="apellidoMaterno" />
+    </div>
+
+    <!-- Fecha de Nacimiento -->
+    <div class="input-icon">
+      <i class="fas fa-calendar"></i>
+      <input type="date" formControlName="fechaNacimiento" />
+    </div>
+
+    <!-- País -->
+    <div class="input-icon">
+      <i class="fas fa-globe"></i>
+      <select formControlName="pais">
+        <option value="">Selecciona un país</option>
+        <option *ngFor="let pais of paises" [value]="pais.nombre">{{ pais.nombre }}</option>
+      </select>
+    </div>
+
+    <!-- Email -->
+    <div class="input-icon">
+      <i class="fas fa-envelope"></i>
+      <input type="email" placeholder="Email" formControlName="email" />
+    </div>
+    <div class="error" *ngIf="fieldErrors['email']">{{ fieldErrors['email'] }}</div>
+
+    <!-- Teléfono -->
+    <div class="input-icon">
+      <i class="fas fa-phone"></i>
+      <input type="text" placeholder="Teléfono" formControlName="telefono" />
+    </div>
+    <div class="error" *ngIf="fieldErrors['telefono']">{{ fieldErrors['telefono'] }}</div>
+
+    <!-- SKU -->
+    <div class="input-icon">
+      <i class="fas fa-barcode"></i>
+      <input type="text" placeholder="SKU del producto" formControlName="sku" />
+    </div>
+    <div class="error" *ngIf="fieldErrors['sku']">{{ fieldErrors['sku'] }}</div>
+
+    <!-- Botón -->
+    <button type="submit" [disabled]="loading">Registrarse</button>
+
+    <div class="success" *ngIf="successMessage">{{ successMessage }}</div>
+    <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <!-- Link -->
+    <div class="register-link">
+      ¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a>
+    </div>
+  </form>
+</div>

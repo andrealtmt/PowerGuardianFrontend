@@ -1,15 +1,32 @@
 <div class="login-container">
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <img src="../../../assets/img/logo.png" alt="Logo PowerGuardian" />
+
     <h2>Iniciar Sesión</h2>
 
-    <label>Email o Usuario</label>
-    <input type="text" formControlName="email" />
+    <!-- Campo Email/Usuario -->
+    <div class="input-icon">
+      <i class="fas fa-envelope"></i>
+      <input type="text" formControlName="email" placeholder="Email o Usuario" />
+    </div>
+    <div class="error" *ngIf="fieldErrors['email']">{{ fieldErrors['email'] }}</div>
 
-    <label>Contraseña</label>
-    <input type="password" formControlName="password" />
+    <!-- Campo Contraseña -->
+    <div class="input-icon password-icon">
+      <i class="fas fa-lock"></i>
+      <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Contraseña" />
+      <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility()" title="Mostrar/Ocultar contraseña"></i>
+    </div>
+    <div class="error" *ngIf="fieldErrors['password']">{{ fieldErrors['password'] }}</div>
 
+    <!-- Botón Entrar -->
     <button type="submit" [disabled]="loading">Entrar</button>
 
     <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <!-- Enlace de Registro -->
+    <div class="register-link">
+      ¿No tienes cuenta? <a routerLink="/login/register">Regístrate</a>
+    </div>
   </form>
 </div>

@@ -5,8 +5,7 @@ import { RoleGuard } from './auth/role.guard';
 
 const routes: Routes = [
   {
-    path: '',
-    loadChildren: () => import('./public/public.module').then(m => m.PublicModule)
+    path: '', redirectTo: '/login', pathMatch: 'full'
   },
   {
     path: 'login',
