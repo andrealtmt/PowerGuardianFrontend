@@ -1,0 +1,61 @@
+
+<div class="perfil-container">
+  <div class="perfil-forms-row">
+    <form class="perfil-form" [formGroup]="perfilForm" (ngSubmit)="guardarPerfil()">
+      <h2>Mi Perfil</h2>
+      <div class="input-icon">
+        <i class="fas fa-id-card"></i>
+        <input type="text" placeholder="Nombres" formControlName="nombres" />
+      </div>
+      <div class="input-icon">
+        <i class="fas fa-user-tag"></i>
+        <input type="text" placeholder="Apellido Paterno" formControlName="apellidoPaterno" />
+      </div>
+      <div class="input-icon">
+        <i class="fas fa-user-tag"></i>
+        <input type="text" placeholder="Apellido Materno" formControlName="apellidoMaterno" />
+      </div>
+      <div class="input-icon">
+        <i class="fas fa-envelope"></i>
+        <input type="email" placeholder="Email (no editable)" formControlName="email" [disabled]="true" />
+      </div>
+      <div class="input-icon">
+        <i class="fas fa-phone"></i>
+        <input type="text" placeholder="Teléfono" formControlName="telefono" />
+      </div>
+      <div class="input-icon">
+        <i class="fas fa-globe"></i>
+        <select formControlName="pais">
+          <option value="">Selecciona un país</option>
+          <option *ngFor="let pais of paises" [value]="pais.nombre">{{ pais.nombre }}</option>
+        </select>
+      </div>
+      <div class="input-icon">
+        <i class="fas fa-calendar"></i>
+        <input type="date" formControlName="fechaNacimiento" />
+      </div>
+      <button type="submit" [disabled]="perfilForm.invalid">Guardar</button>
+    </form>
+
+    <form class="password-form" [formGroup]="passwordForm" (ngSubmit)="cambiarPassword()">
+      <h3>Cambiar contraseña</h3>
+      <div class="input-icon password-icon">
+        <i class="fas fa-lock"></i>
+        <input [type]="showCurrentPassword ? 'text' : 'password'" placeholder="Contraseña actual" formControlName="currentPassword" />
+        <i class="fas" [ngClass]="showCurrentPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility('currentPassword')" title="Mostrar/Ocultar contraseña"></i>
+      </div>
+      <div class="input-icon password-icon">
+        <i class="fas fa-lock"></i>
+        <input [type]="showNewPassword ? 'text' : 'password'" placeholder="Nueva contraseña" formControlName="nuevaPassword" />
+        <i class="fas" [ngClass]="showNewPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility('nuevaPassword')" title="Mostrar/Ocultar contraseña"></i>
+      </div>
+      <div class="input-icon password-icon">
+        <i class="fas fa-lock"></i>
+        <input [type]="showRepeatPassword ? 'text' : 'password'" placeholder="Repetir nueva contraseña" formControlName="repitePassword" />
+        <i class="fas" [ngClass]="showRepeatPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility('repitePassword')" title="Mostrar/Ocultar contraseña"></i>
+      </div>
+      <button type="submit" [disabled]="passwordForm.invalid">Actualizar Contraseña</button>
+    </form>
+  </div>
+  <div *ngIf="mensaje" class="alert toast-alert" [class.error]="isError">{{ mensaje }}</div>
+</div>

@@ -1,0 +1,16 @@
+<div class="layout-container">
+  <app-topbar [user]="user" (toggleSidebar)="toggleSidebar()"></app-topbar>
+
+  <!-- Overlay para móviles -->
+  <div class="sidebar-overlay"
+       [class.active]="!sidebarCollapsed"
+       (click)="closeSidebar()"></div>
+
+  <div class="main-wrapper">
+    <app-sidebar [rol]="user.rol" [collapsed]="sidebarCollapsed"></app-sidebar>
+
+    <main class="main-content" [class.collapsed]="sidebarCollapsed">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

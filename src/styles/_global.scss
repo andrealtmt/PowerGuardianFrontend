@@ -1,12 +1,13 @@
 // 🎨 colorcitos
 $verde-oscuro: #67b061;
-$verde-claro: #b5dfb2;
+$verde-claro: #cceec9;
 $azul-oscuro: #3d7bb6;
 $azul-claro: #c4daef;
 $texto-principal: #313132;
 $rojo-error: #d9534f;
 $gris-claro: #818181;
 $gris-oscuro: #525252;
+$blanco: #F9F6EE;
 
 
 // 🅰️ tipografía: poppins
@@ -38,14 +39,40 @@ $gris-oscuro: #525252;
   font-style: normal;
 }
 
-// fuente
+@font-face {
+  font-family: 'Mazzard';
+  src: url('../assets/fonts/mazzard/MazzardSoftL-ExtraBold.otf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Mazzard';
+  src: url('../assets/fonts/mazzard/MazzardSoftL-Bold.otf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'Heavitas';
+  src: url('../assets/fonts/heavitas/Heavitas.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+// fuentes
 $font-poppins: 'Poppins', sans-serif;
+$font-heavitas: 'Heavitas', sans-serif;
+$font-mazzard: 'Mazzard', sans-serif;
 
 // pesos de fuente
 $font-light: 300;
 $font-regular: 400;
 $font-italic: italic;
 $font-semibold: 600;
+$font-bold: 700;
+$font-extrabold: 800;
 
 $radius: 8px;
 
@@ -56,6 +83,12 @@ body {
   background-color: #f4f4f4;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden; // Prevenir scroll horizontal en móviles
+}
+
+// Asegurar que todos los elementos usen border-box
+*, *::before, *::after {
   box-sizing: border-box;
 }
 

@@ -1,0 +1,30 @@
+<header class="topbar">
+  <div class="left-section">
+    <button class="menu-toggle" (click)="onToggle()">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="logo">
+      <img src="assets/img/logos/isotipo2.0.png" alt="PowerGuardian" />
+      <span class="logo-text"><span class="power-green">Power</span><span class="guardian-blue">Guardian</span></span>
+    </div>
+  </div>
+
+  <div class="user-section" #userSection>
+    <div class="user-avatar">
+      <i class="fas fa-user-circle"></i>
+    </div>
+    <div class="user-info">
+      <div class="user-name">{{ user.nombres }} {{ user.apellidoPaterno }}</div>
+      <div class="user-role">{{ user.rol }}</div>
+    </div>
+    <i class="fas fa-chevron-down dropdown-icon"></i>
+
+    <!-- Dropdown Menu -->
+    <div class="dropdown-menu">
+      <div class="dropdown-item" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Cerrar Sesión</span>
+      </div>
+    </div>
+  </div>
+</header>
