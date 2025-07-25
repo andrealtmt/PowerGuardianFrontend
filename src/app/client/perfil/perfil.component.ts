@@ -139,8 +139,23 @@ export class PerfilComponent implements OnInit {
         this.passwordForm.reset();
         setTimeout(() => { this.mensaje = ''; }, 3000);
       },
-      error: () => {
-        this.mensaje = 'Error al cambiar la contraseña.';
+      error: (error) => {
+        if (error?.error?.message) {
+          this.mensaje = error.error.message;
+        } else if (error?.status === 400 && error?.error?.errors) {
+          const errores = error.error.errors;
+          if (errores && Array.isArray(errores)) {
+            this.mensaje = errores.join(' ');
+          } else if (typeof errores === 'string') {
+            this.mensaje = errores;
+          } else {
+            this.mensaje = 'La nueva contraseña no cumple con los requisitos.';
+          }
+        } else if (error?.status === 401) {
+          this.mensaje = 'La contraseña actual es incorrecta.';
+        } else {
+          this.mensaje = 'La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, una letra minúscula y un carácter especial.';
+        }
         this.isError = true;
         setTimeout(() => { this.mensaje = ''; this.isError = false; }, 3000);
       }
