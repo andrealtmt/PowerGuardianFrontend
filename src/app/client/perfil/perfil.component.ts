@@ -23,7 +23,6 @@ export class PerfilComponent implements OnInit {
     { nombre: 'Perú' },
     { nombre: 'España' },
     { nombre: 'Estados Unidos' },
-    // Agrega más países según sea necesario
   ];
 
   showCurrentPassword = false;
@@ -58,17 +57,6 @@ export class PerfilComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Debug: verificar token
-    console.log('Token:', this.auth.getToken());
-    console.log('Usuario autenticado:', this.auth.isAuthenticated());
-    console.log('Usuario actual:', this.auth.getUsuario());
-
-    // Test: probar endpoint de debug
-    this.userService.debugClaims().subscribe({
-      next: (claims) => console.log('Claims del backend:', claims),
-      error: (error) => console.error('Error en debug claims:', error)
-    });
-
     this.userService.obtenerPerfil().subscribe({
       next: (user) => {
         this.perfilForm.patchValue({
@@ -82,14 +70,13 @@ export class PerfilComponent implements OnInit {
         });
       },
       error: (error) => {
-        console.error('Error al cargar perfil:', error);
+        this.isError = true;
         if (error.status === 401) {
           this.mensaje = 'Sesión expirada. Por favor, inicia sesión nuevamente.';
-          // Opcional: redirigir al login
-          // this.router.navigate(['/login']);
         } else {
           this.mensaje = 'Error al cargar el perfil.';
         }
+        setTimeout(() => { this.mensaje = ''; this.isError = false; }, 3000);
       }
     });
   }
@@ -111,7 +98,6 @@ export class PerfilComponent implements OnInit {
       next: () => {
         this.mensaje = '¡Perfil actualizado!';
         this.isError = false;
-        // Actualizar nombre y apellido en AuthService para que el topbar se actualice
         this.auth.actualizarNombre(formValue.nombres);
         localStorage.setItem('apellidoPaterno', formValue.apellidoPaterno);
         this.auth["userSubject"].next(this.auth["cargarUsuarioDesdeStorage"]());
