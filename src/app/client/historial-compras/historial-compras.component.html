@@ -1,0 +1,73 @@
+<h2>Historial de Compras</h2>
+
+<div *ngIf="compras.length === 0">No hay compras registradas.</div>
+
+<div *ngFor="let c of compras" class="compra-card">
+  <h4>{{ c.productoNombre }}</h4>
+  <p><strong>SKU:</strong> {{ c.sku }}</p>
+  <p><strong>Fecha:</strong> {{ c.fechaCompra | date }}</p>
+
+  <!-- <img *ngIf="c.imagenUrl" [src]="c.imagenUrl" width="100" /> -->
+
+  <!-- Ya tiene reseña -->
+  <div *ngIf="c.tieneResena">
+    <p><i class="fas fa-check text-success"></i> Ya calificaste esta unidad.</p>
+
+    <div class="calificacion">
+      <span *ngFor="let i of [1,2,3,4,5]">
+        <i class="{{ i <= c.calificacion ? 'fas' : 'far' }} fa-star estrella"></i>
+      </span>
+      <p class="comentario"><em>“{{ c.comentario }}”</em></p>
+    </div>
+  </div>
+
+  <!-- Aún no tiene reseña -->
+  <div *ngIf="!c.tieneResena">
+    <p *ngIf="!c.usado" class="text-warning">⚠️ Este producto aún no se ha usado. No puedes dejar reseña.</p>
+    <button (click)="mostrarResenaForm(c.unidadId)" [disabled]="!c.usado">Dejar reseña</button>
+  </div>
+
+  <!-- Formulario para nueva reseña -->
+  <div *ngIf="resenaUnidadId === c.unidadId" class="resena-form">
+    <form (ngSubmit)="enviarResena()" #resenaForm="ngForm">
+      <div class="form-group">
+        <label>Calificación:</label>
+        <div class="estrellas">
+          <i
+            *ngFor="let estrella of [1, 2, 3, 4, 5]"
+            class="estrella-interactiva fa-star"
+            [class.fas]="(hoverCalificacion > 0 ? hoverCalificacion : form.calificacion) >= estrella"
+            [class.far]="(hoverCalificacion > 0 ? hoverCalificacion : form.calificacion) < estrella"
+            (click)="form.calificacion = estrella"
+            (mouseenter)="hoverCalificacion = estrella"
+            (mouseleave)="hoverCalificacion = 0"
+            title="{{estrella}} estrella{{estrella > 1 ? 's' : ''}}"
+          ></i>
+        </div>
+        <p class="calificacion-texto">Calificación: {{form.calificacion}} de 5 estrellas</p>
+      </div>
+
+      <div class="form-group">
+        <label for="comentario">Comentario:</label>
+        <textarea
+          id="comentario"
+          name="comentario"
+          [(ngModel)]="form.comentario"
+          placeholder="¿Qué opinas del producto?"
+          required>
+        </textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="!resenaForm.form.valid || form.calificacion === 0">
+          Enviar reseña
+        </button>
+        <button type="button" (click)="resenaUnidadId = null" class="btn-cancelar">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <hr />
+</div>

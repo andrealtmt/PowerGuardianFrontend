@@ -1,19 +1,38 @@
-<h2>Mis Enchufes Inteligentes</h2>
+<h2>Mis Dispositivos</h2>
+
 <div *ngIf="dispositivos.length === 0">
   <p>No tienes dispositivos registrados.</p>
 </div>
-<div class="dispositivos-lista">
-  <div class="dispositivo-card" *ngFor="let d of dispositivos">
-    <h3>{{ d.nombre || d.sku }}</h3>
-    <div>
-      Estado:
-      <span [ngClass]="{ 'on': d.estado === 'on', 'off': d.estado === 'off' }">
-        {{ d.estado === 'on' ? 'Encendido' : 'Apagado' }}
-      </span>
-    </div>
-    <button (click)="toggleEstado(d)" [disabled]="loadingId === d.id">
-      {{ d.estado === 'on' ? 'Apagar' : 'Encender' }}
-    </button>
+
+<div class="dispositivo-card" *ngFor="let d of dispositivos">
+  <h3>{{ d.nombre }}</h3>
+  <p>SKU: {{ d.sku }}</p>
+  <p>Estado: <strong>{{ d.estado }}</strong></p>
+
+  <button (click)="toggleEstado(d)" [disabled]="loadingId === d.id">
+    {{ d.estado === 'on' ? 'Apagar' : 'Encender' }}
+  </button>
+
+  <button (click)="verConsumo(d.id)">
+    {{ dispositivoSeleccionado === d.id ? 'Ocultar consumo' : 'Ver consumo' }}
+  </button>
+
+  <div *ngIf="dispositivoSeleccionado === d.id" class="grafica-consumo">
+    <app-consumo-dispositivo [dispositivoId]="d.id"></app-consumo-dispositivo>
   </div>
 </div>
-<div *ngIf="mensaje" class="alert">{{ mensaje }}</div>
+
+
+<!-- Botón flotante -->
+<button class="btn-agregar" (click)="mostrarModal = true">
+  <i class="fas fa-plus"></i> Asociar nuevo dispositivo
+</button>
+
+<!-- Modal -->
+<div class="modal-backdrop" *ngIf="mostrarModal">
+  <div class="modal">
+    <button class="cerrar" (click)="mostrarModal = false">✖</button>
+    <app-agregar-dispositivo (onSuccess)="cerrarModal()"></app-agregar-dispositivo>
+
+  </div>
+</div>

@@ -80,11 +80,11 @@
     </div>
     <div class="error" *ngIf="fieldErrors['sku']">{{ fieldErrors['sku'] }}</div>
 
-    <!-- Botón -->
-    <button type="submit" [disabled]="loading">Registrarse</button>
-
     <div class="success" *ngIf="successMessage">{{ successMessage }}</div>
     <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <!-- Botón -->
+    <button type="submit" [disabled]="loading">Registrarse</button>
 
     <!-- Link -->
     <div class="register-link">

@@ -55,7 +55,7 @@ export class RegisterComponent {
       this.paises = data;
     });
 
-    this.titleService.setTitle('Registro | PowerGuardian');
+    this.titleService.setTitle('Registro - PowerGuardian');
   }
 
   onSubmit(): void {

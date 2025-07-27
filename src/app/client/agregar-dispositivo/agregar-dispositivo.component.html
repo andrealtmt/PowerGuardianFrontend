@@ -1,0 +1,21 @@
+<div class="card custom-card">
+  <h2 class="title">Agregar nuevo dispositivo</h2>
+
+  <form [formGroup]="form" (ngSubmit)="asociarDispositivo()">
+    <div class="form-group">
+      <label for="sku">Código SKU</label>
+      <input
+        #skuInput
+        id="sku"
+        formControlName="sku"
+        class="form-control"
+        placeholder="PG-ABC12345"
+        required
+      />
+    </div>
+
+    <button type="submit" class="btn custom-btn" [disabled]="form.invalid || loading">
+      {{ loading ? 'Asociando...' : 'Agregar dispositivo' }}
+    </button>
+  </form>
+</div>

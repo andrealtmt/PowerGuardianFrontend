@@ -20,12 +20,15 @@ export class SidebarComponent {
           { icon: 'fas fa-shopping-cart', label: 'Compras', route: '/admin/compras' },
           { icon: 'fas fa-boxes', label: 'Inventario', route: '/admin/inventario' },
           { icon: 'fas fa-chart-line', label: 'Ventas', route: '/admin/ventas' },
-          { icon: 'fas fa-history', label: 'Historial', route: '/admin/historial' }
+          { icon: 'fas fa-history', label: 'Historial', route: '/admin/historial' },
+          { icon: 'fas fa-file-alt', label: 'Manuales', route: '/admin/manuales' },
+
         ]
       : [
           { icon: 'fas fa-dashboard', label: 'Panel', route: '/client/panel' },
           { icon: 'fas fa-plug', label: 'Dispositivos', route: '/client/dispositivos' },
-          { icon: 'fas fa-chart-bar', label: 'Consumo', route: '/client/consumo' },
+          { icon: 'fas fa-file-alt', label: 'Manuales', route: '/client/manuales' },
+          { icon: 'fas fa-history', label: 'Historial de Compras', route: '/client/historial-compras' },
           { icon: 'fas fa-user', label: 'Perfil', route: '/client/perfil' }
         ];
   }

@@ -1,0 +1,9 @@
+<h2>Manuales y Guías de Uso</h2>
+<div *ngIf="manuales?.length === 0">
+  <p>Sin manuales disponibles.</p>
+</div>
+<div *ngFor="let m of manuales" class="manual-card">
+  <h3>{{ m.nombre }}</h3>
+  <p>{{ m.descripcion }}</p>
+  <a [href]="backendUrl + m.urlArchivo" target="_blank" download>📥 Descargar</a>
+</div>

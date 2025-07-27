@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../shared/services/user.service';
 import { AuthService } from '../../auth/auth.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-perfil',
@@ -38,7 +39,7 @@ export class PerfilComponent implements OnInit {
     }
   }
 
-  constructor(private fb: FormBuilder, private userService: UserService, private auth: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private userService: UserService, private auth: AuthService, private router: Router, private titleService: Title) {
     this.perfilForm = this.fb.group({
       nombres: ['', Validators.required],
       apellidoPaterno: ['', Validators.required],
@@ -57,6 +58,7 @@ export class PerfilComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Perfil - PowerGuardian');
     this.userService.obtenerPerfil().subscribe({
       next: (user) => {
         this.perfilForm.patchValue({

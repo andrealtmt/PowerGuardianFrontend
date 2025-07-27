@@ -33,7 +33,7 @@ export class LoginComponent {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle('Iniciar Sesión | PowerGuardian');
+    this.titleService.setTitle('Iniciar Sesión - PowerGuardian');
   }
 
   onSubmit(): void {

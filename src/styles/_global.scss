@@ -106,6 +106,20 @@ button {
   font-weight: 600;
 }
 
+.btn-cancelar {
+  background-color: $rojo-error;
+  color: white;
+
+  &:hover {
+    background-color: darken($rojo-error, 10%);
+  }
+
+  &:disabled {
+    background-color: lighten($rojo-error, 20%);
+    cursor: not-allowed;
+  }
+}
+
 // inputs
 input, select {
   display: block;
@@ -182,7 +196,6 @@ input[type="date"] {
 .error {
   color: $rojo-error;
   font-size: 0.85rem;
-  margin-top: -0.5rem;
   margin-bottom: 0.75rem;
   text-align: left;
   font-weight: $font-semibold;

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DeviceService } from '../../shared/services/device.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dispositivos',
@@ -8,33 +9,44 @@ import { DeviceService } from '../../shared/services/device.service';
 })
 export class DispositivosComponent implements OnInit {
   dispositivos: any[] = [];
-  loadingId: string | null = null;
+  loadingId: number | null = null;
   mensaje: string = '';
+  mostrarModal = false;
+  dispositivoSeleccionado: number | null = null;
 
-  constructor(private deviceService: DeviceService) {}
+  constructor(private deviceService: DeviceService, private titleService: Title) {}
 
   ngOnInit(): void {
+    this.titleService.setTitle('Dispositivos - PowerGuardian');
     this.cargarDispositivos();
   }
 
   cargarDispositivos(): void {
     this.deviceService.listarMisDispositivos().subscribe({
-      next: res => this.dispositivos = res,
-      error: () => this.mensaje = 'Error al cargar tus dispositivos.'
+      next: (res) => this.dispositivos = res,
+      error: () => this.mensaje = 'Error al cargar dispositivos'
     });
   }
 
+  cerrarModal() {
+  this.mostrarModal = false;
+  }
+
+  verConsumo(id: number) {
+    this.dispositivoSeleccionado = this.dispositivoSeleccionado === id ? null : id;
+  }
+
   toggleEstado(dispositivo: any): void {
-    this.loadingId = dispositivo.id;
     const nuevoEstado = dispositivo.estado === 'on' ? 'off' : 'on';
+    this.loadingId = dispositivo.id;
+
     this.deviceService.cambiarEstado(dispositivo.id, nuevoEstado).subscribe({
-      next: res => {
-        dispositivo.estado = nuevoEstado; 
-        this.mensaje = `Dispositivo ${nuevoEstado === 'on' ? 'encendido' : 'apagado'} correctamente.`;
+      next: () => {
+        dispositivo.estado = nuevoEstado;
         this.loadingId = null;
       },
       error: () => {
-        this.mensaje = 'No se pudo cambiar el estado.';
+        this.mensaje = 'Error al cambiar estado del dispositivo';
         this.loadingId = null;
       }
     });

@@ -18,11 +18,11 @@
       <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility()" title="Mostrar/Ocultar contraseña"></i>
     </div>
     <div class="error" *ngIf="fieldErrors['password']">{{ fieldErrors['password'] }}</div>
+    <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
 
     <!-- Botón Entrar -->
     <button type="submit" [disabled]="loading">Entrar</button>
 
-    <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
 
     <!-- Enlace de Registro -->
     <div class="register-link">

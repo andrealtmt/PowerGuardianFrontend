@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DeviceService {
-  private apiUrl = 'https://localhost:7009/api/devices';
+  private apiUrl = 'https://localhost:7009/api/dispositivos';
+  private recargaSubject = new Subject<void>();
+
+  recargar$ = this.recargaSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -26,5 +29,9 @@ export class DeviceService {
   // (Opcional) Obtener historial de consumo
   obtenerHistorial(id: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/${id}/historial`);
+  }
+
+  emitirRecarga() {
+    this.recargaSubject.next();
   }
 }

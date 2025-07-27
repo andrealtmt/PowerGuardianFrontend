@@ -1,0 +1,187 @@
+@import 'src/styles/global';
+
+// Estilos generales para las tarjetas de compra
+.compra-card {
+  background: white;
+  padding: 20px;
+  margin: 15px 0;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+
+  h4 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+  }
+
+  p {
+    margin: 8px 0;
+    color: #555;
+  }
+
+  img {
+    border-radius: 5px;
+    margin: 10px 0;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 20px 0 0 0;
+  }
+}
+
+// Estilos para calificaciones ya existentes
+.calificacion {
+  margin: 10px 0;
+
+  .estrella {
+    color: #ffc107;
+    margin-right: 2px;
+  }
+
+  .comentario {
+    margin-top: 8px;
+    font-style: italic;
+    color: #666;
+  }
+}
+
+// Estilos para el formulario de reseña
+.resena-form {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 15px;
+  border: 1px solid #dee2e6;
+
+  form {
+    .form-group {
+      margin-bottom: 20px;
+
+      label {
+        display: block;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 80px;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 14px;
+        resize: vertical;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+          outline: none;
+          border-color: #5983ad;
+          box-shadow: 0 0 0 3px rgba(89, 131, 173, 0.1);
+        }
+
+        &::placeholder {
+          color: #999;
+        }
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-start;
+      margin-top: 20px;
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &[type="submit"] {
+          background-color: #5983ad;
+          color: white;
+
+          &:hover:not(:disabled) {
+            background-color: #4a6d91;
+            transform: translateY(-1px);
+          }
+
+          &:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Estilos para las estrellas interactivas
+.estrellas {
+  display: flex;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.estrella-interactiva {
+  font-size: 1.8rem;
+  color: #ddd;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.fas {
+    color: #ffc107;
+  }
+
+  &.far {
+    color: #ddd;
+  }
+
+  &:hover,
+  &.hover {
+    color: #ffeb3b;
+    transform: scale(1.1);
+  }
+}
+
+.calificacion-texto {
+  font-size: 14px;
+  color: #666;
+  margin: 8px 0;
+  font-weight: 500;
+}
+
+// Estilos para estados y alertas
+.text-success {
+  color: #28a745 !important;
+}
+
+.text-warning {
+  color: #ffc107 !important;
+}
+
+// Botones generales
+button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+

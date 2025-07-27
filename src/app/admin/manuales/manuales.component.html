@@ -1,0 +1,27 @@
+<h2>Gestión de Manuales</h2>
+
+<form (ngSubmit)="subirManual()" [formGroup]="manualForm" enctype="multipart/form-data">
+  <label>Nombre del manual:</label>
+  <input formControlName="nombre" type="text" />
+
+  <label>Descripción:</label>
+  <input formControlName="descripcion" type="text" />
+
+  <label>Archivo PDF:</label>
+  <input type="file" (change)="onFileChange($event)" accept="application/pdf" />
+
+  <button type="submit" [disabled]="manualForm.invalid || !archivo">Subir</button>
+</form>
+
+<hr />
+
+<h3>Manuales existentes:</h3>
+<div *ngIf="manuales?.length === 0">
+  <p>Sin manuales disponibles.</p>
+</div>
+<ul>
+  <li *ngFor="let m of manuales">
+    {{ m.nombre }} — <a [href]="backendUrl + m.urlArchivo" target="_blank">Ver PDF</a>
+    <button (click)="eliminarManual(m.id)"> <i class="fas fa-trash"></i> Eliminar</button>
+  </li>
+</ul>
