@@ -1,0 +1,133 @@
+<div class="inventario-container">
+  <!-- Header mejorado -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="title-section">
+        <h2>
+          Inventario
+        </h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- Indicador de carga -->
+  <div *ngIf="cargando" class="loading-container">
+    <i class="fas fa-spinner fa-spin"></i>
+    <span>Cargando inventario...</span>
+  </div>
+
+  <!-- Componente de búsqueda y filtro -->
+  <div *ngIf="!cargando">
+    <app-table-search-filter
+      [config]="searchFilterConfig"
+      [totalItems]="inventario.length"
+      [filteredItems]="inventarioFiltrado.length"
+      [loading]="cargando"
+      (searchChange)="onSearchFilterChange($event)"
+      (clearFilters)="onClearFilters()"
+    ></app-table-search-filter>
+  </div>
+
+  <!-- Tabla de inventario mejorada -->
+  <div *ngIf="!cargando" class="tabla-container">
+    <table class="tabla-inventario">
+      <thead>
+        <tr>
+          <th>
+            Producto
+          </th>
+          <th>
+            Estado
+          </th>
+          <th>
+            Fecha de Ingreso
+          </th>
+          <th>
+            SKU
+          </th>
+          <th>
+            Notas
+          </th>
+          <th>
+            Acciones
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let i of inventarioFiltrado"
+            [class.item-asignado]="i.usuarioId"
+            [class.item-danado]="i.estado === 'dañada'">
+          <td class="producto-cell">
+            <div class="producto-info">
+              <span class="producto-nombre">{{ i.productoNombre }}</span>
+            </div>
+          </td>
+
+          <td class="estado-cell">
+            <span class="estado-badge" [ngClass]="getEstadoClass(i.estado)">
+              <i [class]="getEstadoIcon(i.estado)"></i>
+              {{ getEstadoTexto(i.estado) }}
+            </span>
+            <span *ngIf="i.usuarioId" class="asignado-badge">
+              <i class="fas fa-user"></i>
+              Asignado
+            </span>
+          </td>
+
+          <td class="fecha-cell">
+            <span class="fecha">{{ i.fechaIngreso | date:'dd/MM/yyyy' }}</span>
+            <span class="hora">{{ i.fechaIngreso | date:'HH:mm' }}</span>
+          </td>
+
+          <td class="sku-cell">
+            <span
+              class="sku"
+              [ngClass]="{
+                'sku-warning': i.sku?.includes('⚠️'),
+                'sku-normal': i.sku && !i.sku.includes('Sin asignar') && !i.sku?.includes('⚠️'),
+                'sku-unassigned': !i.sku || i.sku.includes('Sin asignar')
+              }"
+            >
+              {{ i.sku || 'Sin asignar' }}
+            </span>
+          </td>
+
+          <td class="notas-cell">
+            <span class="notas" [title]="i.notas">
+              {{ i.notas || '—' }}
+            </span>
+          </td>
+
+          <td class="acciones-cell">
+            <div class="acciones">
+              <button
+                (click)="eliminar(i.id)"
+                [disabled]="i.estado !== 'disponible'"
+                class="btn-eliminar"
+                [title]="i.estado !== 'disponible' ? 'Solo se pueden eliminar items disponibles' : 'Eliminar del inventario'"
+              >
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Estados vacíos mejorados -->
+    <div *ngIf="inventarioFiltrado.length === 0 && inventario.length > 0" class="no-results">
+      <div class="no-results-icon">
+        <i class="fas fa-search"></i>
+      </div>
+      <h3>No se encontraron resultados</h3>
+      <p>Intenta ajustar los filtros de búsqueda para encontrar productos</p>
+    </div>
+
+    <div *ngIf="inventario.length === 0" class="empty-state">
+      <div class="empty-icon">
+        <i class="fas fa-warehouse"></i>
+      </div>
+      <h3>No hay productos en el inventario</h3>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,109 @@
+<div class="resenas-container page-container">
+  <!-- Header de la página -->
+  <div class="page-header">
+    <h2>Reseñas de Clientes</h2>
+  </div>
+
+  <!-- Estado de carga -->
+  <div *ngIf="cargando" class="loading-container">
+    <i class="fas fa-spinner fa-spin"></i>
+    Cargando reseñas...
+  </div>
+
+  <!-- Contenido principal -->
+  <div *ngIf="!cargando">
+    <!-- Buscador y filtros -->
+    <app-table-search-filter
+      [config]="searchFilterConfig"
+      [totalItems]="resenas.length"
+      [filteredItems]="resenasFiltradas.length"
+      [loading]="false"
+      (searchChange)="onSearchFilterChange($event)"
+      (clearFilters)="onClearFilters()">
+    </app-table-search-filter>
+
+    <!-- Tabla de reseñas -->
+    <div class="tabla-container" *ngIf="resenasFiltradas.length > 0">
+      <table class="tabla-moderna">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Producto</th>
+            <th>SKU</th>
+            <th>Calificación</th>
+            <th>Comentario</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let resena of resenasFiltradas">
+            <td>
+              <div class="cliente-info">
+                <i class="fas fa-user"></i>
+                <span class="cliente-nombre">{{ resena.cliente }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="producto-info">
+                <div class="producto-nombre">{{ resena.productoNombre }}</div>
+              </div>
+            </td>
+            <td>
+              <span class="sku-badge">{{ resena.sku }}</span>
+            </td>
+            <td>
+              <div class="calificacion-container" [class]="getCalificacionColor(resena.calificacion)">
+                <div class="estrellas">
+                  <i *ngFor="let estrella of getEstrellas(resena.calificacion)" [class]="estrella"></i>
+                </div>
+                <span class="calificacion-numero">{{ resena.calificacion }}/5</span>
+              </div>
+            </td>
+            <td>
+              <div class="comentario-cell">
+                <span class="comentario-text" [title]="resena.comentario">
+                  {{ resena.comentario }}
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="fecha-info">
+                <span class="fecha">{{ resena.fecha | date:'dd/MM/yyyy' }}</span>
+                <span class="hora">{{ resena.fecha | date:'HH:mm' }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="acciones-container">
+                <button
+                  class="btn-eliminar"
+                  (click)="eliminar(resena)"
+                  title="Eliminar reseña">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Estado sin resultados -->
+    <div *ngIf="resenasFiltradas.length === 0 && resenas.length > 0" class="no-results">
+      <div class="no-results-icon">
+        <i class="fas fa-search"></i>
+      </div>
+      <h3>Sin resultados</h3>
+      <p>No se encontraron reseñas que coincidan con tu búsqueda.</p>
+    </div>
+
+    <!-- Estado vacío -->
+    <div *ngIf="resenas.length === 0" class="empty-state">
+      <div class="empty-icon">
+        <i class="fas fa-star"></i>
+      </div>
+      <h3>No hay reseñas disponibles</h3>
+      <p>Las reseñas de los clientes aparecerán aquí cuando se registren.</p>
+    </div>
+  </div>
+</div>

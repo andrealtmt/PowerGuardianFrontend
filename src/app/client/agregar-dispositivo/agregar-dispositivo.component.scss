@@ -1,0 +1,243 @@
+@import '../../../styles/global';
+
+.agregar-dispositivo-container {
+  .form-section {
+    .section-info {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 1.25rem;
+      background: lighten($azul-claro, 20%);
+      border-radius: $radius;
+      border-left: 4px solid $azul-oscuro;
+
+      .info-icon {
+        flex-shrink: 0;
+        width: 50px;
+        height: 50px;
+        background: $azul-oscuro;
+        color: white;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        i {
+          font-size: 1.5rem;
+        }
+      }
+
+      .info-text {
+        flex: 1;
+
+        h4 {
+          margin: 0 0 0.5rem 0;
+          color: $texto-principal;
+          font-weight: $font-semibold;
+          font-size: 1.1rem;
+        }
+
+        p {
+          margin: 0;
+          color: $gris-oscuro;
+          font-size: 0.9rem;
+          line-height: 1.4;
+        }
+      }
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+
+      label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: $font-semibold;
+        color: $texto-principal;
+        margin-bottom: 0.75rem;
+        font-size: 0.95rem;
+
+        i {
+          color: $azul-oscuro;
+          font-size: 0.9rem;
+        }
+      }
+
+      .input-container {
+        position: relative;
+
+        .form-input {
+          width: 100%;
+          padding: 0.875rem 1rem 0.875rem 3rem;
+          border: 2px solid $gris-claro;
+          border-radius: $radius;
+          font-size: 1rem;
+          color: $texto-principal;
+          background: white;
+          transition: all 0.3s ease;
+          font-family: $font-poppins;
+
+          &:focus {
+            outline: none;
+            border-color: $azul-oscuro;
+            box-shadow: 0 0 0 3px rgba($azul-oscuro, 0.1);
+          }
+
+          &.error {
+            border-color: $rojo-error;
+            box-shadow: 0 0 0 3px rgba($rojo-error, 0.1);
+          }
+
+          &::placeholder {
+            color: $gris-claro;
+            font-style: italic;
+          }
+        }
+
+        .input-icon {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          color: $gris-claro;
+          pointer-events: none;
+
+          i {
+            font-size: 1.1rem;
+          }
+        }
+      }
+
+      .form-errors {
+        margin-top: 0.5rem;
+
+        .error-message {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          color: $rojo-error;
+          font-size: 0.8rem;
+          font-weight: $font-medium;
+
+          i {
+            font-size: 0.75rem;
+          }
+        }
+      }
+
+      .form-help {
+        margin-top: 0.75rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 1rem;
+        background: lighten($verde-claro, 15%);
+        border-radius: $radius;
+        border-left: 3px solid $verde-oscuro;
+
+        i {
+          color: $verde-oscuro;
+          font-size: 0.9rem;
+          margin-top: 0.1rem;
+          flex-shrink: 0;
+        }
+
+        font-size: 0.85rem;
+        color: $gris-oscuro;
+        line-height: 1.4;
+      }
+    }
+
+    .form-actions {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+
+      .btn-asociar {
+        @extend .btn-primario;
+        padding: 1rem 2rem;
+        font-size: 1rem;
+        font-weight: $font-semibold;
+        min-width: 200px;
+        justify-content: center;
+
+        &:disabled {
+          background: $gris-claro;
+          cursor: not-allowed;
+          transform: none;
+          box-shadow: none;
+
+          i.fa-spinner {
+            color: white;
+          }
+        }
+
+        i {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .agregar-dispositivo-container {
+    .form-section {
+      .section-info {
+        flex-direction: column;
+        text-align: center;
+
+        .info-icon {
+          align-self: center;
+        }
+      }
+
+      .form-actions {
+        .btn-asociar {
+          width: 100%;
+          min-width: auto;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .agregar-dispositivo-container {
+    .form-section {
+      .section-info {
+        padding: 1rem;
+
+        .info-text {
+          h4 {
+            font-size: 1rem;
+          }
+
+          p {
+            font-size: 0.85rem;
+          }
+        }
+      }
+
+      .form-group {
+        .input-container {
+          .form-input {
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            font-size: 0.9rem;
+          }
+
+          .input-icon {
+            left: 0.75rem;
+          }
+        }
+
+        .form-help {
+          padding: 0.75rem;
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+}

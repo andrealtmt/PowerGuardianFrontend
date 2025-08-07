@@ -1,0 +1,170 @@
+<div class="proveedor-productos-container">
+  <!-- Header con título -->
+  <div class="page-header">
+    <h2>
+      Gestión de Productos por Proveedor
+    </h2>
+  </div>
+
+  <!-- Indicador de carga -->
+  <div *ngIf="cargando" class="loading-container">
+    <i class="fas fa-spinner fa-spin"></i>
+    <span>Cargando datos...</span>
+  </div>
+
+  <!-- Sección: Seleccionar Proveedor -->
+  <div class="content-card">
+    <div class="card-header">
+      <h3>
+        <i class="fas fa-building"></i>
+        Seleccionar Proveedor
+      </h3>
+    </div>
+    <div class="card-content">
+      <div class="input-icon">
+        <i class="fas fa-building"></i>
+        <select
+          [(ngModel)]="proveedorSeleccionado"
+          (ngModelChange)="onProveedorChange()"
+          [disabled]="cargando"
+        >
+          <option [ngValue]="null">-- Selecciona un proveedor --</option>
+          <option *ngFor="let p of proveedores" [value]="p.id">{{ p.nombre }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección: Asignar Nuevo Producto -->
+  <div *ngIf="proveedorSeleccionado" class="content-card">
+    <div class="card-header">
+      <h3>
+        <i class="fas fa-plus-circle"></i>
+        Asignar Nuevo Producto
+      </h3>
+    </div>
+    <div class="card-content">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>
+            <i class="fas fa-box"></i>
+            Producto
+          </label>
+          <div class="input-icon">
+            <select [(ngModel)]="productoAAsignar">
+              <option [ngValue]="null">-- Selecciona producto --</option>
+              <option *ngFor="let p of getProductosDisponibles()" [value]="p.id">
+                {{ p.nombre }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>
+            Precio del Proveedor (opcional)
+          </label>
+          <div class="input-icon">
+            <i class="fas fa-dollar-sign"></i>
+            <input
+              type="number"
+              [(ngModel)]="precioProveedor"
+              step="0.01"
+              min="0"
+              placeholder="0.00"
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button
+          (click)="asignarProducto()"
+          [disabled]="!productoAAsignar"
+          class="btn-primary"
+        >
+          <i class="fas fa-plus"></i>
+          Asignar Producto
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección: Productos Asignados -->
+  <div *ngIf="proveedorSeleccionado" class="content-card">
+    <div class="card-header">
+      <h3>
+        <i class="fas fa-list"></i>
+        Productos Asignados
+        <span class="count-badge" *ngIf="productosDelProveedor.length > 0">
+          {{ productosDelProveedor.length }}
+        </span>
+      </h3>
+    </div>
+    <div class="card-content">
+      <!-- Tabla con productos asignados -->
+      <div *ngIf="productosDelProveedor.length > 0" class="table-container">
+        <table class="modern-table">
+          <thead>
+            <tr>
+              <th>
+                Producto
+              </th>
+              <th>
+                Precio del Proveedor
+              </th>
+              <th>
+                Acciones
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let pp of productosDelProveedor" class="table-row">
+              <td class="product-name">
+                {{ pp.productoNombre }}
+              </td>
+              <td class="price-cell">
+                <span
+                  *ngIf="pp.precioProveedor != null; else noPriceTemplate"
+                  class="price-value"
+                >
+                  {{ pp.precioProveedor | currency:'USD':'symbol':'1.2-2' }}
+                </span>
+                <ng-template #noPriceTemplate>
+                  <span class="no-price">No especificado</span>
+                </ng-template>
+              </td>
+              <td class="action-cell">
+                <button
+                  class="btn-eliminar btn-small"
+                  (click)="removerProducto(pp.productoId)"
+                  title="Remover producto del proveedor"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Estado vacío -->
+      <div *ngIf="productosDelProveedor.length === 0" class="empty-state">
+        <div class="empty-icon">
+          <i class="fas fa-inbox"></i>
+        </div>
+        <h4>Sin productos asignados</h4>
+        <p>Este proveedor aún no tiene productos asignados. Utiliza el formulario de arriba para asignar productos.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Estado inicial (sin proveedor seleccionado) -->
+  <div *ngIf="!proveedorSeleccionado" class="welcome-state">
+    <div class="welcome-icon">
+      <i class="fas fa-hand-point-up"></i>
+    </div>
+    <h3>Selecciona un proveedor</h3>
+    <p>Primero selecciona un proveedor de la lista para ver y gestionar sus productos asignados.</p>
+  </div>
+</div>

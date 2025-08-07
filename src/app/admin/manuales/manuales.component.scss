@@ -1,0 +1,169 @@
+@import '../../../styles/global';
+
+.manuales-container {
+  @extend .page-container;
+
+  .page-header {
+    @extend .page-header;
+  }
+
+  .tabla-container {
+    @extend .tabla-container;
+
+    table {
+      @extend .tabla-moderna;
+    }
+  }
+
+  .loading-container {
+    @extend .loading-container;
+  }
+
+  .empty-state {
+    @extend .empty-state;
+  }
+
+  .no-results {
+    @extend .no-results;
+  }
+
+  // Estilos específicos para manuales
+  .archivo-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .archivo-icon {
+      font-size: 1.2rem;
+      color: $rojo-error;
+    }
+
+    .archivo-tipo {
+      @include badge-style($rojo-error, white);
+      font-size: 0.7rem;
+      padding: 0.2rem 0.4rem;
+    }
+  }
+
+  .manual-nombre {
+    font-weight: $font-semibold;
+    color: $texto-principal;
+    margin-bottom: 0.25rem;
+  }
+
+  .manual-descripcion {
+    color: $gris-oscuro;
+    font-size: 0.9rem;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .fecha-info {
+    @extend .fecha-info;
+  }
+
+  .acciones-container {
+    @extend .acciones-container;
+  }
+
+  .btn-primario {
+    @extend .btn-primario;
+  }
+
+  .btn-cancelar {
+    @extend .btn-cancelar;
+  }
+
+  .btn {
+    @extend .btn;
+  }
+
+  .btn-eliminar {
+    @extend .btn-eliminar;
+  }
+}
+
+// Estilos específicos del modal de manuales (complementando los globales)
+.modal-manual {
+  // Área de carga de archivos personalizada
+  .file-upload-area {
+    position: relative;
+
+    .file-upload-content {
+      border: 2px dashed $gris-claro;
+      border-radius: $radius;
+      padding: 2rem;
+      text-align: center;
+      background: #fafafa;
+      transition: all 0.2s ease;
+      cursor: pointer;
+
+      &:hover {
+        border-color: $verde-oscuro;
+        background: white;
+      }
+
+      i {
+        font-size: 2rem;
+        color: $gris-claro;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        margin: 0 0 0.5rem 0;
+        color: $texto-principal;
+        font-weight: $font-medium;
+
+        .file-selected {
+          color: $verde-oscuro;
+
+          i {
+            font-size: 1rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      small {
+        color: $gris-oscuro;
+        font-size: 0.75rem;
+      }
+    }
+  }
+}// Responsive design específico
+@media (max-width: 768px) {
+  .manuales-container {
+    padding: 1rem;
+
+    .tabla-container {
+      overflow-x: auto;
+
+      table {
+        min-width: 700px;
+
+        .manual-descripcion {
+          max-width: 200px;
+        }
+      }
+    }
+
+    .page-header.page-header-with-actions {
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+
+        .action-section {
+          align-self: stretch;
+
+          .btn-primario {
+            width: 100%;
+            justify-content: center;
+          }
+        }
+      }
+    }
+  }
+}

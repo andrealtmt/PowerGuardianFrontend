@@ -1,1 +1,11 @@
 <router-outlet></router-outlet>
+
+<!-- Componente de alertas global -->
+<app-custom-alert
+  [config]="alertConfig"
+  [visible]="alertVisible"
+  (visibleChange)="alertVisible = $event">
+</app-custom-alert>
+
+<!-- Contenedor de toasts -->
+<app-toast-container></app-toast-container>

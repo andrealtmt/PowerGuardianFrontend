@@ -1,0 +1,385 @@
+// Importar estilos globales
+@import '../../../styles/global';
+
+.manuales-cliente-container {
+  .page-header {
+
+    h2 {
+      color: $texto-principal;
+      font-weight: 600;
+    }
+  }
+
+  // Buscador y filtros personalizados
+  .search-filter-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+
+    .search-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      .search-group {
+        flex: 2;
+        min-width: 250px;
+
+        .input-with-icon {
+          position: relative;
+
+          i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+          }
+
+          .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+
+            &:focus {
+              outline: none;
+              border-color: $azul-oscuro;
+              box-shadow: 0 0 0 3px rgba($azul-oscuro, 0.1);
+            }
+
+            &::placeholder {
+              color: $gris-claro;
+            }
+          }
+        }
+      }
+
+      .filter-group {
+        flex: 1;
+        min-width: 200px;
+
+        .filter-select {
+          width: 100%;
+          padding: 0.75rem 1rem;
+          border: 2px solid #e1e5e9;
+          border-radius: 8px;
+          background: white;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &:focus {
+            outline: none;
+            border-color: $azul-oscuro;
+            box-shadow: 0 0 0 3px rgba($azul-oscuro, 0.1);
+          }
+        }
+      }
+
+      .filter-actions {
+        .btn-clear-filters {
+          padding: 0.75rem 1.5rem;
+          background: $rojo-error;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+
+          &:hover {
+            background: darken($rojo-error, 10%);
+            transform: translateY(-1px);
+          }
+
+          i {
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+
+    .search-results-info {
+      padding-top: 1rem;
+      border-top: 1px solid #e1e5e9;
+
+      .results-count {
+        color: $gris-oscuro;
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+    }
+  }
+
+  // Grid de manuales
+  .manuales-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+
+    .manual-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      overflow: hidden;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .card-header {
+        padding: 1.5rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+
+        .manual-icon {
+          flex-shrink: 0;
+          width: 50px;
+          height: 50px;
+          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          i {
+            font-size: 1.5rem;
+          }
+        }
+
+        .manual-info {
+          flex: 1;
+
+          .manual-titulo {
+            color: $texto-principal;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+          }
+
+          .manual-descripcion {
+            color: $gris-oscuro;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin: 0;
+          }
+        }
+      }
+
+      .card-content {
+        padding: 0 1.5rem 1rem;
+
+        .manual-metadata {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1rem;
+
+          .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: $gris-oscuro;
+            font-size: 0.85rem;
+
+            i {
+              width: 16px;
+              text-align: center;
+            }
+          }
+        }
+      }
+
+      .card-actions {
+        padding: 1rem 1.5rem 1.5rem;
+        display: flex;
+        gap: 0.75rem;
+
+        .btn-descargar {
+          flex: 1;
+          padding: 0.75rem 1rem;
+          background: $verde-oscuro;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+
+          &:hover {
+            background: darken($verde-oscuro, 10%);
+            transform: translateY(-1px);
+          }
+        }
+
+        .btn-ver {
+          flex: 1;
+          padding: 0.75rem 1rem;
+          background: $azul-oscuro;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          font-weight: 500;
+          text-decoration: none;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+
+          &:hover {
+            background: darken($azul-oscuro, 10%);
+            transform: translateY(-1px);
+            color: white;
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+
+  // Estados vacíos
+  .no-results,
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: $gris-oscuro;
+
+    .no-results-icon,
+    .empty-icon {
+      margin-bottom: 1rem;
+
+      i {
+        font-size: 3rem;
+        color: $gris-claro;
+      }
+    }
+
+    h3 {
+      color: $texto-principal;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      margin: 0;
+      font-size: 1rem;
+      color: $gris-oscuro;
+    }
+  }
+
+  // Loading
+  .loading-container {
+    text-align: center;
+    padding: 3rem;
+    color: $gris-oscuro;
+
+    i {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: $azul-oscuro;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .manuales-cliente-container {
+    .search-filter-container {
+      .search-filters {
+        flex-direction: column;
+        align-items: stretch;
+
+        .search-group,
+        .filter-group {
+          flex: none;
+          min-width: auto;
+        }
+
+        .filter-actions {
+          align-self: center;
+        }
+      }
+    }
+
+    .manuales-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+
+      .manual-card {
+        .card-actions {
+          flex-direction: column;
+
+          .btn-descargar,
+          .btn-ver {
+            flex: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .manuales-cliente-container {
+    .page-header {
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .page-description {
+        font-size: 1rem;
+      }
+    }
+
+    .search-filter-container {
+      padding: 1rem;
+    }
+
+    .manuales-grid {
+      .manual-card {
+        .card-header {
+          padding: 1rem;
+          flex-direction: column;
+          text-align: center;
+
+          .manual-icon {
+            align-self: center;
+          }
+        }
+
+        .card-content {
+          padding: 0 1rem 1rem;
+
+          .manual-metadata {
+            justify-content: center;
+          }
+        }
+
+        .card-actions {
+          padding: 1rem;
+        }
+      }
+    }
+  }
+}

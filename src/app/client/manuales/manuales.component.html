@@ -1,9 +1,122 @@
-<h2>Manuales y Guías de Uso</h2>
-<div *ngIf="manuales?.length === 0">
-  <p>Sin manuales disponibles.</p>
-</div>
-<div *ngFor="let m of manuales" class="manual-card">
-  <h3>{{ m.nombre }}</h3>
-  <p>{{ m.descripcion }}</p>
-  <a [href]="backendUrl + m.urlArchivo" target="_blank" download>📥 Descargar</a>
+<div class="manuales-cliente-container page-container">
+  <!-- Header de la página -->
+  <div class="page-header">
+    <h2>Manuales y Guías de Uso</h2>
+  </div>
+
+  <!-- Estado de carga -->
+  <div *ngIf="cargando" class="loading-container">
+    <i class="fas fa-spinner fa-spin"></i>
+    Cargando manuales...
+  </div>
+
+  <!-- Contenido principal -->
+  <div *ngIf="!cargando">
+    <!-- Buscador y filtros personalizados -->
+    <div class="search-filter-container">
+      <div class="search-filters">
+        <div class="search-group">
+          <div class="input-with-icon">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              [(ngModel)]="searchTerm"
+              (ngModelChange)="applyFilters()"
+              placeholder="Buscar manuales..."
+              class="search-input">
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <select
+            [(ngModel)]="selectedTipoDocumento"
+            (ngModelChange)="applyFilters()"
+            class="filter-select">
+            <option value="">Todos los tipos</option>
+            <option value="usuario">Manual de Usuario</option>
+            <option value="tecnica">Documentación Técnica</option>
+            <option value="instalacion">Guía de Instalación</option>
+          </select>
+        </div>
+
+        <div class="filter-actions">
+          <button
+            class="btn-clear-filters"
+            (click)="clearFilters()"
+            *ngIf="searchTerm || selectedTipoDocumento">
+            <i class="fas fa-times"></i>
+            Limpiar filtros
+          </button>
+        </div>
+      </div>
+
+      <div class="search-results-info">
+        <span class="results-count">
+          {{ manualesFiltrados.length }} de {{ manuales.length }} manuales
+        </span>
+      </div>
+    </div>
+
+    <!-- Grid de manuales -->
+    <div class="manuales-grid" *ngIf="manualesFiltrados.length > 0">
+      <div class="manual-card" *ngFor="let manual of manualesFiltrados">
+        <div class="card-header">
+          <div class="manual-icon">
+            <i [class]="getFileIcon(manual)"></i>
+          </div>
+          <div class="manual-info">
+            <h3 class="manual-titulo">{{ manual.nombre }}</h3>
+            <p class="manual-descripcion">{{ manual.descripcion }}</p>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <div class="manual-metadata">
+            <div class="metadata-item" *ngIf="manual.tamano">
+              <i class="fas fa-file-archive"></i>
+              <span>{{ formatFileSize(manual.tamano) }}</span>
+            </div>
+            <div class="metadata-item">
+              <i class="fas fa-file-pdf"></i>
+              <span>PDF</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <button
+            class="btn-descargar"
+            (click)="descargarManual(manual)">
+            <i class="fas fa-download"></i>
+            Descargar
+          </button>
+          <a
+            [href]="backendUrl + manual.urlArchivo"
+            target="_blank"
+            class="btn-ver">
+            <i class="fas fa-eye"></i>
+            Ver Online
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Estado sin resultados -->
+    <div *ngIf="manualesFiltrados.length === 0 && manuales.length > 0" class="no-results">
+      <div class="no-results-icon">
+        <i class="fas fa-search"></i>
+      </div>
+      <h3>Sin resultados</h3>
+      <p>No se encontraron manuales que coincidan con tu búsqueda.</p>
+    </div>
+
+    <!-- Estado vacío -->
+    <div *ngIf="manuales.length === 0" class="empty-state">
+      <div class="empty-icon">
+        <i class="fas fa-book-open"></i>
+      </div>
+      <h3>No hay manuales disponibles</h3>
+      <p>Los manuales y guías de uso aparecerán aquí cuando estén disponibles.</p>
+    </div>
+  </div>
 </div>

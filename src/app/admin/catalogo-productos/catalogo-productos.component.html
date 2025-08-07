@@ -1,0 +1,196 @@
+<div class="catalogo-container">
+  <div class="header">
+    <h2>Catálogo de Productos</h2>
+    <button (click)="nuevoProducto()" class="btn-primario" [disabled]="cargando">
+      <i class="fas fa-plus"></i>
+      Agregar Producto
+    </button>
+  </div>
+
+  <div *ngIf="mensaje" class="mensaje" [class.error]="mensaje.includes('Error')" [class.success]="!mensaje.includes('Error')">
+    {{ mensaje }}
+  </div>
+
+  <!-- Componente de búsqueda y filtro -->
+  <app-table-search-filter
+    [config]="searchFilterConfig"
+    [totalItems]="productos.length"
+    [filteredItems]="productosFiltrados.length"
+    [loading]="cargando"
+    (searchChange)="onSearchFilterChange($event)"
+    (clearFilters)="onClearFilters()"
+  ></app-table-search-filter>
+
+  <div *ngIf="cargando" class="loading">
+    <i class="fas fa-spinner fa-spin"></i>
+    Cargando...
+  </div>
+
+  <!-- Formulario -->
+  <div *ngIf="mostrarFormulario" class="formulario-container">
+    <div class="formulario">
+      <h3>{{ editando ? 'Editar' : 'Nuevo' }} Producto</h3>
+      <form (ngSubmit)="guardarProducto()" #form="ngForm">
+          <div class="input-group">
+          <label for="nombre">Nombre *</label>
+          <input
+            id="nombre"
+            [(ngModel)]="formulario.nombre"
+            name="nombre"
+            placeholder="Nombre del producto"
+            required
+            maxlength="200"
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="descripcion">Descripción *</label>
+          <input
+            id="descripcion"
+            [(ngModel)]="formulario.descripcion"
+            name="descripcion"
+            placeholder="Descripción del producto"
+            required
+            maxlength="200"
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="precio">Precio *</label>
+          <input
+            id="precio"
+            [(ngModel)]="formulario.precio"
+            name="precio"
+            placeholder="0.00"
+            type="number"
+            step="0.01"
+            min="0"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="imagen">Imagen del Producto</label>
+          <div class="file-input-container">
+            <input
+              type="file"
+              id="imagen"
+              (change)="onFileSelected($event)"
+              accept="image/*"
+              class="file-input"
+            />
+            <label for="imagen" class="file-input-label">
+              <i class="fas fa-cloud-upload-alt"></i>
+              {{ archivoSeleccionado ? archivoSeleccionado.name : 'Seleccionar imagen' }}
+            </label>
+          </div>
+
+          <!-- Preview de la imagen -->
+          <div *ngIf="previewImagen" class="image-preview">
+            <img [src]="previewImagen" alt="Preview" class="preview-img"/>
+            <button type="button" (click)="removeImage()" class="remove-image-btn">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+
+          <small class="file-help">
+            Formatos soportados: JPG, PNG, GIF. Máximo 5MB.
+          </small>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" (click)="cancelar()" class="btn-cancelar">
+            <i class="fas fa-times"></i>
+            Cancelar
+          </button>
+          <button type="submit" class="btn-primario" [disabled]="cargando || !form.valid">
+            <i class="fas fa-save"></i>
+            {{ editando ? 'Actualizar' : 'Guardar' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Tabla de productos -->
+  <div class="tabla-container" *ngIf="!cargando">
+    <table class="tabla-productos">
+      <thead>
+        <tr>
+          <th>Imagen</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Precio</th>
+          <th>Stock</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of productosFiltrados" [class.sin-stock]="producto.stockDisponible === 0">
+          <td class="imagen-cell">
+            <div class="imagen-container">
+              <img
+                *ngIf="producto.imagenUrl"
+                [src]="getImagenUrl(producto.imagenUrl)"
+                [alt]="producto.descripcion"
+                class="producto-imagen"
+              />
+              <div *ngIf="!producto.imagenUrl" class="sin-imagen">
+                <i class="fas fa-image"></i>
+                Sin imagen
+              </div>
+            </div>
+          </td>
+          <td class="nombre-cell">
+            <div class="nombre">{{ producto.nombre }}</div>
+          </td>
+          <td class="descripcion-cell">
+            <div class="descripcion">{{ producto.descripcion }}</div>
+          </td>
+          <td class="precio-cell">
+            <span class="precio">{{ formatearPrecio(producto.precio) }}</span>
+          </td>
+          <td class="stock-cell">
+            <span class="stock" [class.sin-stock]="producto.stockDisponible === 0">
+              {{ producto.stockDisponible }} unidades
+            </span>
+          </td>
+          <td class="acciones-cell">
+            <div class="acciones">
+              <button
+                (click)="editar(producto)"
+                class="btn-editar"
+                title="Editar producto"
+              >
+                <i class="fas fa-edit"></i>
+              </button>
+              <button
+                (click)="eliminar(producto.id)"
+                class="btn-eliminar"
+                title="Eliminar producto"
+              >
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="productosFiltrados.length === 0 && !cargando" class="empty-state">
+      <i class="fas fa-box-open"></i>
+      <h3>No hay productos que coincidan con los filtros</h3>
+      <p>Intenta ajustar los criterios de búsqueda o filtros</p>
+    </div>
+
+    <div *ngIf="productos.length === 0 && !cargando" class="empty-state">
+      <i class="fas fa-box-open"></i>
+      <h3>No hay productos en el catálogo</h3>
+      <p>Comience agregando productos para mostrar al público</p>
+      <button (click)="nuevoProducto()" class="btn-primario">
+        <i class="fas fa-plus"></i>
+        Agregar Primer Producto
+      </button>
+    </div>
+  </div>
+</div>

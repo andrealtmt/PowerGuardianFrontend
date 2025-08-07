@@ -1,0 +1,180 @@
+@import '../../../styles/global';
+
+.resenas-container {
+  @extend .page-container;
+
+  .page-header {
+    @extend .page-header;
+  }
+
+  .tabla-container {
+    @extend .tabla-container;
+
+    table {
+      @extend .tabla-moderna;
+    }
+  }
+
+  .loading-container {
+    @extend .loading-container;
+  }
+
+  .empty-state {
+    @extend .empty-state;
+  }
+
+  .no-results {
+    @extend .no-results;
+  }
+
+  // Estilos específicos para reseñas
+  .cliente-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    i {
+      color: $azul-oscuro;
+      font-size: 0.9rem;
+    }
+
+    .cliente-nombre {
+      font-weight: $font-semibold;
+      color: $texto-principal;
+    }
+  }
+
+  .producto-info {
+    .producto-nombre {
+      font-weight: $font-medium;
+      color: $texto-principal;
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .sku-badge {
+    @include badge-style($azul-claro, $azul-oscuro);
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .calificacion-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+
+    .estrellas {
+      display: flex;
+      gap: 0.1rem;
+
+      i {
+        font-size: 0.9rem;
+
+        &.fas {
+          color: #fbbf24;
+        }
+
+        &.far {
+          color: $gris-claro;
+        }
+      }
+    }
+
+    .calificacion-numero {
+      font-size: 0.75rem;
+      font-weight: $font-semibold;
+    }
+
+    &.calificacion-alta {
+      .calificacion-numero {
+        color: $verde-oscuro;
+      }
+    }
+
+    &.calificacion-media {
+      .calificacion-numero {
+        color: #f59e0b;
+      }
+    }
+
+    &.calificacion-baja {
+      .calificacion-numero {
+        color: $rojo-error;
+      }
+    }
+  }
+
+  .comentario-cell {
+    max-width: 250px;
+
+    .comentario-text {
+      display: block;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 0.9rem;
+      color: $gris-oscuro;
+      line-height: 1.4;
+    }
+  }
+
+  .fecha-info {
+    @extend .fecha-info;
+  }
+
+  .acciones-container {
+    @extend .acciones-container;
+  }
+
+  .btn-eliminar {
+    @extend .btn-eliminar;
+  }
+}
+
+// Responsive design específico
+@media (max-width: 768px) {
+  .resenas-container {
+    padding: 1rem;
+
+    .tabla-container {
+      overflow-x: auto;
+
+      table {
+        min-width: 800px;
+
+        .comentario-cell {
+          max-width: 150px;
+        }
+
+        .producto-info .producto-nombre {
+          max-width: 120px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .resenas-container {
+    .tabla-container table {
+      min-width: 600px;
+      font-size: 0.85rem;
+
+      .comentario-cell {
+        max-width: 100px;
+      }
+
+      .calificacion-container {
+        .estrellas i {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+}

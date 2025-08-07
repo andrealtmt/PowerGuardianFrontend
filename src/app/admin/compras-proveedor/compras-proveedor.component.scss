@@ -1,0 +1,350 @@
+@import 'src/styles/global';
+
+// 🎨 COMPONENTE DE COMPRAS PROVEEDOR - USANDO ESTILOS GLOBALES
+.compras-container {
+  @extend .page-container;
+}
+
+// Mensajes informativos
+.info-message, .warning-message {
+  padding: 1rem;
+  border-radius: $radius;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: $font-medium;
+
+  i {
+    font-size: 1.2rem;
+  }
+}
+
+.info-message {
+  background: lighten($azul-claro, 20%);
+  color: $azul-oscuro;
+  border: 1px solid $azul-claro;
+}
+
+.warning-message {
+  background: lighten(orange, 40%);
+  color: darken(orange, 20%);
+  border: 1px solid orange;
+}
+
+// Grid de productos
+.productos-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.producto-item {
+  background: lighten($azul-claro, 25%);
+  border-radius: $radius;
+  padding: 1.5rem;
+  border: 2px solid $azul-claro;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: $azul-oscuro;
+    box-shadow: 0 4px 12px rgba($azul-oscuro, 0.1);
+  }
+}
+
+.producto-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 1rem;
+  align-items: end;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .producto-select {
+    min-width: 0; // Permite que el select se encoja
+  }
+
+  .cantidad-input {
+    min-width: 120px;
+  }
+
+  .subtotal-group {
+    min-width: 120px;
+  }
+
+  .actions-group {
+    min-width: 60px;
+    display: flex;
+    align-items: end;
+
+    label {
+      visibility: hidden; // Mantiene el espacio pero oculta el label
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+.subtotal-display {
+  background: white;
+  padding: 0.75rem 1rem;
+  border-radius: $radius;
+  border: 2px solid $gris-claro;
+  text-align: center;
+  min-height: 47px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+
+  .subtotal-amount {
+    font-weight: $font-semibold;
+    color: $verde-oscuro;
+    font-size: 1rem;
+  }
+
+  .subtotal-placeholder {
+    color: $gris-oscuro;
+    font-weight: $font-regular;
+    font-style: italic;
+  }
+
+  &:hover {
+    border-color: $verde-oscuro;
+    box-shadow: 0 2px 8px rgba($verde-oscuro, 0.1);
+  }
+}
+
+.acciones-productos {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+// Total de compra
+.total-compra {
+  background: lighten($verde-claro, 5%);
+  border: 2px solid $verde-oscuro;
+  border-radius: $radius;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: $font-semibold;
+
+  .total-label {
+    color: $verde-oscuro;
+  }
+
+  .total-amount {
+    color: $verde-oscuro;
+    font-size: 1.4rem;
+    font-weight: $font-bold;
+  }
+}
+
+.form-actions-final {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+// Estilos para textarea de notas
+.textarea-container {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+
+  .textarea-icon {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    color: $gris-oscuro;
+    font-size: 1rem;
+    z-index: 2;
+  }
+
+  .textarea-styled {
+    width: 100%;
+    min-height: 100px;
+    padding: 1rem 1rem 1rem 2.5rem;
+    border: 2px solid $gris-claro;
+    border-radius: $radius;
+    font-family: $font-poppins;
+    font-size: 0.9rem;
+    color: $texto-principal;
+    background: white;
+    resize: vertical;
+    transition: all 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $azul-oscuro;
+      box-shadow: 0 0 0 3px rgba($azul-oscuro, 0.1);
+    }
+
+    &:disabled {
+      background-color: #f9f9f9;
+      color: $gris-oscuro;
+      cursor: not-allowed;
+    }
+
+    &::placeholder {
+      color: $gris-claro;
+      font-style: italic;
+    }
+  }
+}
+
+// Modal de historial
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-historial {
+  .modal-content {
+    max-width: 1000px;
+    width: 95%;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: $radius;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+    .modal-header {
+      background: $azul-oscuro;
+      color: white;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: $radius $radius 0 0;
+
+      h3 {
+        margin: 0;
+        font-size: 1.4rem;
+        font-weight: $font-semibold;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+        i {
+          font-size: 1.2rem;
+        }
+      }
+
+      .btn-close {
+        background: rgba(white, 0.2);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: rgba(white, 0.3);
+          transform: scale(1.1);
+        }
+
+        i {
+          font-size: 1rem;
+        }
+      }
+    }
+
+    .modal-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+    }
+  }
+}
+
+.cantidad-badge {
+  background: $azul-claro;
+  color: $azul-oscuro;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-weight: $font-semibold;
+  font-size: 0.9rem;
+}
+
+.total-amount {
+  font-weight: $font-semibold;
+  color: $verde-oscuro;
+}
+
+// Responsive específico
+@media (max-width: 768px) {
+  .compras-container {
+    .tabla-moderna {
+      th:nth-child(5),
+      td:nth-child(5) {
+        display: none; // Ocultar total en móviles
+      }
+    }
+
+    .producto-row {
+      .cantidad-input,
+      .subtotal-group {
+        min-width: auto;
+      }
+    }
+
+    .total-compra {
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: center;
+    }
+  }
+
+  .modal-historial .modal-content {
+    width: 98%;
+    margin: 1rem;
+    max-height: 95vh;
+  }
+}
+
+@media (max-width: 576px) {
+  .compras-container {
+    .tabla-moderna {
+      th:nth-child(4),
+      td:nth-child(4) {
+        display: none; // Ocultar cantidad en móviles pequeños
+      }
+    }
+
+    .producto-row {
+      grid-template-columns: 1fr;
+
+      .actions-group label {
+        visibility: visible;
+      }
+    }
+  }
+}

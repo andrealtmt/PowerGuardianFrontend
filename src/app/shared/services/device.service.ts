@@ -21,6 +21,11 @@ export class DeviceService {
     return this.http.put(`${this.apiUrl}/${id}/estado`, { estado });
   }
 
+  // Asociar dispositivo por SKU
+  asociarDispositivo(sku: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/asociar`, { sku });
+  }
+
   // Obtener consumo actual
   obtenerConsumo(id: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/${id}/consumo`);

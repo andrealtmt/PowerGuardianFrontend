@@ -1,21 +1,63 @@
-<div class="card custom-card">
-  <h2 class="title">Agregar nuevo dispositivo</h2>
-
-  <form [formGroup]="form" (ngSubmit)="asociarDispositivo()">
-    <div class="form-group">
-      <label for="sku">Código SKU</label>
-      <input
-        #skuInput
-        id="sku"
-        formControlName="sku"
-        class="form-control"
-        placeholder="PG-ABC12345"
-        required
-      />
+<div class="agregar-dispositivo-container">
+  <div class="form-section">
+    <div class="section-info">
+      <div class="info-icon">
+        <i class="fas fa-microchip"></i>
+      </div>
+      <div class="info-text">
+        <h4>Asociar Dispositivo PowerGuardian</h4>
+        <p>Ingresa el código SKU que te enviamos por correo al momento de tu compra.</p>
+      </div>
     </div>
 
-    <button type="submit" class="btn custom-btn" [disabled]="form.invalid || loading">
-      {{ loading ? 'Asociando...' : 'Agregar dispositivo' }}
-    </button>
-  </form>
+    <form [formGroup]="form" (ngSubmit)="asociarDispositivo()">
+      <div class="form-group">
+        <label for="sku">
+          <i class="fas fa-barcode"></i>
+          Código SKU del Dispositivo
+        </label>
+        <div class="input-container">
+          <input
+            #skuInput
+            id="sku"
+            type="text"
+            formControlName="sku"
+            placeholder="Ej: PG-ABC12345"
+            class="form-input"
+            [class.error]="form.get('sku')?.touched && form.get('sku')?.invalid"
+            required
+          />
+          <div class="input-icon">
+            <i class="fas fa-qrcode"></i>
+          </div>
+        </div>
+
+        <div class="form-errors" *ngIf="form.get('sku')?.touched && form.get('sku')?.invalid">
+          <small *ngIf="form.get('sku')?.errors?.['required']" class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            El código SKU es requerido
+          </small>
+          <small *ngIf="form.get('sku')?.errors?.['minlength']" class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            El código SKU debe tener al menos 6 caracteres
+          </small>
+        </div>
+
+        <div class="form-help">
+          <i class="fas fa-info-circle"></i>
+          El código SKU generalmente tiene un formato "PG-XXXXXX"
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn-asociar"
+          [disabled]="form.invalid || loading">
+          <i class="fas fa-{{ loading ? 'spinner fa-spin' : 'plus' }}"></i>
+          {{ loading ? 'Asociando dispositivo...' : 'Asociar Dispositivo' }}
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

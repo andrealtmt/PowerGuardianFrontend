@@ -1,2 +1,186 @@
-<h2>Bienvenido al Panel de Administración</h2>
-<p>Aquí verás estadísticas, usuarios, dispositivos y más.</p>
+<div class="dashboard-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <i class="fas fa-spinner fa-spin"></i>
+    <p>Cargando datos del dashboard...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-state">
+    <i class="fas fa-exclamation-triangle"></i>
+    <p>Error al cargar los datos</p>
+    <button (click)="cargarDatos()" class="btn-retry">
+      <i class="fas fa-redo"></i>
+      Reintentar
+    </button>
+  </div>
+
+  <!-- Dashboard Content -->
+  <div *ngIf="!loading && !error && dashboardData" class="dashboard-content">
+
+    <!-- 1. Resumen de Ventas -->
+    <section class="dashboard-section">
+      <h2>Resumen de Ventas</h2>
+      <div class="cards-grid">
+        <div class="dashboard-card ventas">
+          <div class="card-header">
+            <i class="fas fa-chart-line"></i>
+            <h3>Total Vendidas</h3>
+          </div>
+          <div class="card-value">{{ dashboardData.ventas.totalUnidadesVendidas }}</div>
+          <div class="card-label">unidades vendidas</div>
+        </div>
+
+        <div class="dashboard-card ventas">
+          <div class="card-header">
+            <i class="fas fa-calendar-week"></i>
+            <h3>Últimos 7 días</h3>
+          </div>
+          <div class="card-value">{{ dashboardData.ventas.ventasUltimos7Dias }}</div>
+          <div class="card-label">ventas recientes</div>
+        </div>
+
+        <div class="dashboard-card ventas">
+          <div class="card-header">
+            <i class="fas fa-dollar-sign"></i>
+            <h3>Ingresos Estimados</h3>
+          </div>
+          <div class="card-value">{{ formatearPrecio(dashboardData.ventas.ingresosEstimados) }}</div>
+          <div class="card-label">total generado</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Estado del Inventario -->
+    <section class="dashboard-section">
+      <h2>Estado del Inventario</h2>
+      <div class="cards-grid">
+        <div class="dashboard-card inventario disponible">
+          <div class="card-header">
+            <i class="fas fa-boxes"></i>
+            <h3>Disponibles</h3>
+          </div>
+          <div class="card-value">{{ dashboardData.inventario.totalDisponibles }}</div>
+          <div class="card-label">unidades en stock</div>
+        </div>
+
+        <div class="dashboard-card inventario danado">
+          <div class="card-header">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h3>Dañadas/Devueltas</h3>
+          </div>
+          <div class="card-value">{{ dashboardData.inventario.totalDanadas }}</div>
+          <div class="card-label">unidades con problemas</div>
+        </div>
+
+        <div class="dashboard-card inventario sin-stock">
+          <div class="card-header">
+            <i class="fas fa-times-circle"></i>
+            <h3>Sin Stock</h3>
+          </div>
+          <div class="card-value">{{ dashboardData.inventario.productosSinStock }}</div>
+          <div class="card-label">productos agotados</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Usuarios -->
+    <section class="dashboard-section">
+      <h2>Usuarios</h2>
+      <div class="cards-grid">
+        <div class="dashboard-card usuarios total">
+          <div class="card-header">
+            <i class="fas fa-users"></i>
+            <h3>Total Clientes</h3>
+          </div>
+          <div class="card-value">{{ dashboardData.usuarios.totalClientes }}</div>
+          <div class="card-label">registrados</div>
+        </div>
+
+        <div class="dashboard-card usuarios activo">
+          <div class="card-header">
+            <i class="fas fa-user-check"></i>
+            <h3>Activos</h3>
+          </div>
+          <div class="card-value">{{ dashboardData.usuarios.clientesActivos }}</div>
+          <div class="card-label">cuentas activas</div>
+        </div>
+
+        <div class="dashboard-card usuarios inactivo">
+          <div class="card-header">
+            <i class="fas fa-user-times"></i>
+            <h3>Desactivados</h3>
+          </div>
+          <div class="card-value">{{ dashboardData.usuarios.clientesDesactivados }}</div>
+          <div class="card-label">cuentas suspendidas</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Reseñas -->
+    <section class="dashboard-section">
+      <h2>Opiniones y Reseñas</h2>
+      <div class="cards-grid">
+        <div class="dashboard-card resenas">
+          <div class="card-header">
+            <i class="fas fa-star"></i>
+            <h3>Total Reseñas</h3>
+          </div>
+          <div class="card-value">{{ dashboardData.resenas.totalResenas }}</div>
+          <div class="card-label">opiniones recibidas</div>
+        </div>
+
+        <div class="dashboard-card resenas ultima" [class.no-data]="!dashboardData.resenas.ultimaResena">
+          <div class="card-header">
+            <i class="fas fa-clock"></i>
+            <h3>Última Reseña</h3>
+          </div>
+          <div class="card-value small" *ngIf="dashboardData.resenas.ultimaResena">
+            {{ formatearFecha(dashboardData.resenas.ultimaResena) }}
+          </div>
+          <div class="card-value small" *ngIf="!dashboardData.resenas.ultimaResena">Sin reseñas</div>
+          <div class="card-label" *ngIf="dashboardData.resenas.ultimaResenaTexto">
+            "{{ dashboardData.resenas.ultimaResenaTexto }}..."
+          </div>
+          <div class="card-label" *ngIf="!dashboardData.resenas.ultimaResenaTexto">
+            No hay reseñas disponibles
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Dispositivos -->
+    <section class="dashboard-section">
+      <h2>Dispositivos Activos</h2>
+      <div class="cards-grid">
+        <div class="dashboard-card dispositivos total">
+          <div class="card-header">
+            <i class="fas fa-plug"></i>
+            <h3>Total Registrados</h3>
+          </div>
+          <div class="card-value">{{ dashboardData.dispositivos.totalDispositivos }}</div>
+          <div class="card-label">dispositivos en sistema</div>
+        </div>
+
+        <div class="dashboard-card dispositivos encendido">
+          <div class="card-header">
+            <i class="fas fa-power-off"></i>
+            <h3>Encendidos</h3>
+          </div>
+          <div class="card-value">{{ dashboardData.dispositivos.dispositivosEncendidos }}</div>
+          <div class="card-label">actualmente activos</div>
+        </div>
+
+        <div class="dashboard-card dispositivos nuevo">
+          <div class="card-header">
+            <i class="fas fa-plus-circle"></i>
+            <h3>Nuevos (7 días)</h3>
+          </div>
+          <div class="card-value">{{ dashboardData.dispositivos.dispositivosNuevos }}</div>
+          <div class="card-label">agregados recientemente</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>

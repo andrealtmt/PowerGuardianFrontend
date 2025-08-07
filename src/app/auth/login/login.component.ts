@@ -53,7 +53,7 @@ export class LoginComponent {
         if (role === 'Admin') {
           this.router.navigate(['admin/dashboard']);
         } else if (role === 'Cliente') {
-          this.router.navigate(['client/panel']);
+          this.router.navigate(['client/dispositivos']);
         } else {
           this.router.navigate(['/login']);
         }

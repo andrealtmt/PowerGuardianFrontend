@@ -1,38 +1,110 @@
-<h2>Mis Dispositivos</h2>
-
-<div *ngIf="dispositivos.length === 0">
-  <p>No tienes dispositivos registrados.</p>
-</div>
-
-<div class="dispositivo-card" *ngFor="let d of dispositivos">
-  <h3>{{ d.nombre }}</h3>
-  <p>SKU: {{ d.sku }}</p>
-  <p>Estado: <strong>{{ d.estado }}</strong></p>
-
-  <button (click)="toggleEstado(d)" [disabled]="loadingId === d.id">
-    {{ d.estado === 'on' ? 'Apagar' : 'Encender' }}
-  </button>
-
-  <button (click)="verConsumo(d.id)">
-    {{ dispositivoSeleccionado === d.id ? 'Ocultar consumo' : 'Ver consumo' }}
-  </button>
-
-  <div *ngIf="dispositivoSeleccionado === d.id" class="grafica-consumo">
-    <app-consumo-dispositivo [dispositivoId]="d.id"></app-consumo-dispositivo>
+<div class="dispositivos-container page-container">
+  <!-- Header de la página -->
+  <div class="page-header page-header-with-actions">
+    <div class="header-content">
+      <div class="title-section">
+        <h2 class="header-left">Mis Dispositivos</h2>
+      </div>
+      <div class="action-section">
+        <button
+          class="btn-primario"
+          (click)="abrirModal()"
+          [disabled]="cargando">
+          <i class="fas fa-plus"></i>
+          Asociar Dispositivo
+        </button>
+      </div>
+    </div>
   </div>
-</div>
 
+  <!-- Estado de carga -->
+  <div *ngIf="cargando" class="loading-container">
+    <i class="fas fa-spinner fa-spin"></i>
+    Cargando dispositivos...
+  </div>
 
-<!-- Botón flotante -->
-<button class="btn-agregar" (click)="mostrarModal = true">
-  <i class="fas fa-plus"></i> Asociar nuevo dispositivo
-</button>
+  <!-- Contenido principal -->
+  <div *ngIf="!cargando">
+    <!-- Grid de dispositivos -->
+    <div class="dispositivos-grid" *ngIf="dispositivos.length > 0">
+      <div class="dispositivo-card" *ngFor="let dispositivo of dispositivos">
+        <div class="card-header">
+          <div class="dispositivo-info">
+            <div class="info-text">
+              <h3 class="dispositivo-nombre">{{ dispositivo.nombre }}</h3>
+              <p class="dispositivo-sku">SKU: {{ dispositivo.sku }}</p>
+            </div>
+          </div>
+          <div class="estado-container">
+            <span class="estado-badge" [class]="getEstadoBadge(dispositivo.estado)">
+              <i [class]="getEstadoIcon(dispositivo.estado)"></i>
+              {{ getEstadoTexto(dispositivo.estado) }}
+            </span>
+          </div>
+        </div>
 
-<!-- Modal -->
-<div class="modal-backdrop" *ngIf="mostrarModal">
-  <div class="modal">
-    <button class="cerrar" (click)="mostrarModal = false">✖</button>
-    <app-agregar-dispositivo (onSuccess)="cerrarModal()"></app-agregar-dispositivo>
+        <div class="card-actions">
+          <button
+            class="btn-toggle"
+            [class]="dispositivo.estado === 'on' ? 'btn-danger' : 'btn-success'"
+            (click)="toggleEstado(dispositivo)"
+            [disabled]="loadingId === dispositivo.id">
+            <i class="fas fa-{{ loadingId === dispositivo.id ? 'spinner fa-spin' : (dispositivo.estado === 'on' ? 'power-off' : 'play') }}"></i>
+            {{ dispositivo.estado === 'on' ? 'Apagar' : 'Encender' }}
+          </button>
 
+          <button
+            class="btn-consumo"
+            [class]="dispositivoSeleccionado === dispositivo.id ? 'btn-secundario' : 'btn-edit'"
+            (click)="verConsumo(dispositivo)">
+            <i class="fas fa-{{ dispositivoSeleccionado === dispositivo.id ? 'eye-slash' : 'chart-line' }}"></i>
+            {{ dispositivoSeleccionado === dispositivo.id ? 'Ocultar' : 'Ver Consumo' }}
+          </button>
+        </div>
+
+        <!-- Gráfica de consumo -->
+        <div *ngIf="dispositivoSeleccionado === dispositivo.id" class="grafica-consumo">
+          <div class="consumo-header">
+            <h4>
+              <i class="fas fa-chart-area"></i>
+              Consumo Energético
+            </h4>
+          </div>
+          <div class="consumo-content">
+            <app-consumo-dispositivo [dispositivoId]="dispositivo.id"></app-consumo-dispositivo>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Estado vacío -->
+    <div *ngIf="dispositivos.length === 0" class="empty-state">
+      <div class="empty-icon">
+        <i class="fas fa-microchip"></i>
+      </div>
+      <h3>No tienes dispositivos registrados</h3>
+      <p>Comienza asociando tu primer dispositivo PowerGuardian para monitorear su consumo energético.</p>
+      <button class="btn-primario" (click)="abrirModal()">
+        <i class="fas fa-plus"></i>
+        Asociar Primer Dispositivo
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal para agregar dispositivo -->
+  <div *ngIf="mostrarModal" class="modal-overlay">
+    <div class="modal-dispositivo">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Asociar Nuevo Dispositivo</h3>
+          <button class="modal-close" (click)="cerrarModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <app-agregar-dispositivo (onSuccess)="cerrarModal()"></app-agregar-dispositivo>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

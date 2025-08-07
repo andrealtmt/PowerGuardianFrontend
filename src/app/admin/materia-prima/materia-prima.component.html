@@ -1,0 +1,258 @@
+<div class="materia-prima-container">
+  <!-- Header de página -->
+  <div class="page-header page-header-with-actions">
+    <div class="header-content">
+      <div class="title-section">
+        <h2 class="header-left">
+          Gestión de Materia Prima
+        </h2>
+      </div>
+      <div class="action-section">
+        <button
+          class="btn-primario"
+          (click)="mostrarFormularioCrear()"
+          [disabled]="cargando"
+        >
+          <i class="fas fa-plus"></i>
+          Nueva Materia Prima
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Indicador de carga -->
+  <div *ngIf="cargando" class="loading-container">
+    <i class="fas fa-spinner fa-spin"></i>
+    Cargando materias primas...
+  </div>
+
+  <!-- Componente de búsqueda y filtro -->
+  <app-table-search-filter
+    [config]="searchFilterConfig"
+    [totalItems]="materias.length"
+    [filteredItems]="materiasFiltradas.length"
+    [loading]="cargando"
+    (searchChange)="onSearchFilterChange($event)"
+    (clearFilters)="onClearFilters()"
+  ></app-table-search-filter>
+
+  <!-- Formulario Modal -->
+  <div *ngIf="mostrarFormulario" class="modal-overlay">
+    <div class="modal-materia">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>
+            <i class="fas fa-plus"></i>
+            Nueva Materia Prima
+          </h3>
+        </div>
+
+        <div class="modal-body">
+          <form (ngSubmit)="crear()" #form="ngForm">
+            <div class="form-group">
+              <label for="nombre">Nombre *</label>
+              <input
+                id="nombre"
+                [(ngModel)]="nueva.nombre"
+                name="nombre"
+                placeholder="Nombre de la materia prima"
+                required
+                maxlength="100"
+              />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="unidadMedida">Unidad de Medida *</label>
+                <input
+                  id="unidadMedida"
+                  [(ngModel)]="nueva.unidadMedida"
+                  name="unidadMedida"
+                  placeholder="kg, litros, gramos, etc."
+                  required
+                  maxlength="20"
+                />
+                <div class="form-help">
+                  Ej: kg, litros, gramos, unidades, metros
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="costoUnitario">Costo Unitario *</label>
+                <input
+                  id="costoUnitario"
+                  [(ngModel)]="nueva.costoUnitario"
+                  name="costoUnitario"
+                  type="number"
+                  step="0.01"
+                  min="0.01"
+                  placeholder="0.00"
+                  required
+                />
+                <div class="form-help">
+                  Costo por unidad de medida
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-actions">
+          <button
+            type="button"
+            class="btn-cancelar"
+            (click)="cancelarFormulario()"
+            [disabled]="cargando"
+          >
+            <i class="fas fa-times"></i>
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="btn-primario"
+            (click)="crear()"
+            [disabled]="cargando"
+          >
+            <i class="fas fa-{{ cargando ? 'spinner fa-spin' : 'save' }}"></i>
+            {{ cargando ? 'Guardando...' : 'Guardar' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla de materias primas -->
+  <div *ngIf="!cargando" class="tabla-container">
+    <table class="tabla-moderna">
+      <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Unidad</th>
+            <th>Costo Unitario</th>
+            <th>Costo por unidad</th>
+            <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let materia of materiasFiltradas">
+          <!-- Nombre -->
+          <td>
+            <div *ngIf="editandoId !== materia.id" class="materia-nombre">
+              {{ materia.nombre }}
+            </div>
+            <div *ngIf="editandoId === materia.id">
+              <input
+                [(ngModel)]="editando.nombre"
+                placeholder="Nombre"
+                [disabled]="cargando"
+              />
+            </div>
+          </td>
+
+          <!-- Unidad -->
+          <td>
+            <div *ngIf="editandoId !== materia.id">
+              <span class="unidad-badge">{{ materia.unidadMedida }}</span>
+            </div>
+            <div *ngIf="editandoId === materia.id">
+              <input
+                [(ngModel)]="editando.unidadMedida"
+                placeholder="Unidad"
+                [disabled]="cargando"
+              />
+            </div>
+          </td>
+
+          <!-- Costo -->
+          <td>
+            <div *ngIf="editandoId !== materia.id">
+              <span class="costo-amount">{{ materia.costoUnitario | currency }}</span>
+            </div>
+            <div *ngIf="editandoId === materia.id">
+              <input
+                type="number"
+                step="0.01"
+                min="0.01"
+                [(ngModel)]="editando.costoUnitario"
+                placeholder="0.00"
+                [disabled]="cargando"
+              />
+            </div>
+          </td>
+
+          <!-- Costo equivalente -->
+          <td>
+            <span class="costo-equivalente text-muted">
+              <!-- Aquí se podría calcular equivalencias, por ahora mostrar el costo base -->
+              {{ materia.costoUnitario | currency }}/{{ materia.unidadMedida }}
+            </span>
+          </td>
+
+          <!-- Acciones -->
+          <td>
+            <div class="acciones-container">
+              <ng-container *ngIf="editandoId !== materia.id">
+                <button
+                  class="btn btn-edit"
+                  (click)="activarEdicion(materia)"
+                  [disabled]="cargando"
+                  title="Editar materia prima"
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button
+                  class="btn btn-danger"
+                  (click)="eliminar(materia.id)"
+                  [disabled]="cargando"
+                  title="Eliminar materia prima"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </ng-container>
+
+              <ng-container *ngIf="editandoId === materia.id">
+                <button
+                  class="btn btn-success"
+                  (click)="guardarEdicion()"
+                  [disabled]="cargando"
+                  title="Guardar cambios"
+                >
+                  <i class="fas fa-{{ cargando ? 'spinner fa-spin' : 'check' }}"></i>
+                </button>
+                <button
+                  class="btn btn-edit"
+                  (click)="cancelarEdicion()"
+                  [disabled]="cargando"
+                  title="Cancelar edición"
+                >
+                  <i class="fas fa-times"></i>
+                </button>
+              </ng-container>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Estado vacío -->
+    <div *ngIf="materiasFiltradas.length === 0 && materias.length > 0" class="no-results">
+      <div class="no-results-icon">
+        <i class="fas fa-search"></i>
+      </div>
+      <h3>Sin resultados</h3>
+      <p>No se encontraron materias primas que coincidan con los filtros</p>
+    </div>
+
+    <div *ngIf="materias.length === 0" class="empty-state">
+      <div class="empty-icon">
+        <i class="fas fa-seedling"></i>
+      </div>
+      <h3>No hay materias primas registradas</h3>
+      <p>Comience agregando las materias primas que utiliza en sus productos</p>
+      <button class="btn-primario" (click)="mostrarFormularioCrear()">
+        <i class="fas fa-plus"></i>
+        Agregar Primera Materia Prima
+      </button>
+    </div>
+  </div>
+</div>

@@ -12,10 +12,16 @@ import { TokenInterceptor } from './shared/services/token.interceptor';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgChartsModule } from 'ng2-charts';
+import { CustomAlertComponent } from './shared/components/custom-alert/custom-alert.component';
+import { ToastComponent } from './shared/components/toast/toast.component';
+import { ToastContainerComponent } from './shared/components/toast-container/toast-container.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CustomAlertComponent,
+    ToastComponent,
+    ToastContainerComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,307 @@
+@import '../../../styles/global';
+
+.ventas-container {
+  @extend .page-container;
+
+  .estadisticas-dashboard {
+    margin-bottom: 2rem;
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      border-left: 4px solid;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .stat-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+      }
+
+      .stat-content {
+        flex: 1;
+
+        .stat-value {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #1f2937;
+          line-height: 1;
+        }
+
+        .stat-label {
+          font-size: 0.875rem;
+          color: #6b7280;
+          margin-top: 0.25rem;
+        }
+      }
+
+      // Colores específicos para cada tipo de tarjeta
+      &.ventas-card {
+        border-left-color: #3b82f6;
+        .stat-icon {
+          background: #3b82f6;
+        }
+      }
+
+      &.ingresos-card {
+        border-left-color: #10b981;
+        .stat-icon {
+          background: #10b981;
+        }
+      }
+
+      &.promedio-card {
+        border-left-color: #f59e0b;
+        .stat-icon {
+          background: #f59e0b;
+        }
+      }
+
+      &.hoy-card {
+        border-left-color: #8b5cf6;
+        .stat-icon {
+          background: #8b5cf6;
+        }
+      }
+
+      &.semana-card {
+        border-left-color: #06b6d4;
+        .stat-icon {
+          background: #06b6d4;
+        }
+      }
+
+      &.mes-card {
+        border-left-color: #ef4444;
+        .stat-icon {
+          background: #ef4444;
+        }
+      }
+    }
+  }
+
+  // Estilos específicos de la tabla
+  .sku-badge {
+    @include badge-style(#f3f4f6, #374151);
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .producto-info {
+    .producto-nombre {
+      font-weight: 500;
+      color: #1f2937;
+    }
+  }
+
+  .precio-value {
+    font-weight: 700;
+    color: $verde-oscuro;
+    font-size: 1rem;
+  }
+
+  .fecha-info {
+    display: flex;
+    flex-direction: column;
+
+    .fecha-principal {
+      font-weight: 500;
+      color: #374151;
+      font-size: 0.875rem;
+    }
+
+    .fecha-hora {
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+  }
+
+  .cliente-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    i {
+      color: #6b7280;
+      font-size: 1rem;
+    }
+
+    .cliente-nombre {
+      font-weight: 500;
+      color: #374151;
+    }
+  }
+
+  // Sección de análisis
+  .analisis-section {
+    margin-top: 2rem;
+
+    .analisis-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .analisis-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+
+      .card-header {
+        background: lighten(#764ba2, 12%);
+        color: white;
+        padding: 1rem 1.5rem;
+
+        h3 {
+          margin: 0;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 1rem;
+          font-weight: 600;
+        }
+      }
+
+      .card-body {
+        padding: 1.5rem;
+
+        .productos-list {
+          .producto-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: background-color 0.2s ease;
+
+            &:hover {
+              background-color: #f9fafb;
+            }
+
+            .producto-posicion {
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-weight: 700;
+              font-size: 0.875rem;
+              background-color: #e5e7eb;
+              color: #374151;
+            }
+
+            &.top-1 .producto-posicion {
+              background: linear-gradient(135deg, #ffd700, #ffed4e);
+              color: #92400e;
+            }
+
+            &.top-2 .producto-posicion {
+              background: linear-gradient(135deg, #c0c0c0, #e5e7eb);
+              color: #374151;
+            }
+
+            &.top-3 .producto-posicion {
+              background: linear-gradient(135deg, #cd7f32, #d97706);
+              color: white;
+            }
+
+            .producto-detalle {
+              flex: 1;
+
+              .producto-nombre {
+                display: block;
+                font-weight: 500;
+                color: #1f2937;
+                margin-bottom: 0.125rem;
+              }
+
+              .producto-stats {
+                font-size: 0.75rem;
+                color: #6b7280;
+              }
+            }
+          }
+        }
+
+        .sin-datos {
+          text-align: center;
+          color: #6b7280;
+          padding: 2rem;
+
+          i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+          }
+        }
+      }
+    }
+  }
+
+  // Responsive
+  @media (max-width: 768px) {
+    .estadisticas-dashboard .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tabla-moderna {
+      thead th:nth-child(1),
+      tbody td:nth-child(1) {
+        display: none;
+      }
+    }
+
+    .analisis-section .analisis-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .estadisticas-dashboard .stats-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .tabla-moderna {
+      thead th:nth-child(4),
+      tbody td:nth-child(4) {
+        display: none;
+      }
+    }
+
+    .page-header-with-actions .header-content {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+
+      .action-section {
+        text-align: center;
+      }
+    }
+  }
+}

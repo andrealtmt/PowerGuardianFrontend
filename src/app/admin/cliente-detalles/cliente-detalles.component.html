@@ -1,0 +1,44 @@
+<div *ngIf="visible" class="modal-overlay" (click)="cerrar()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Detalles del Cliente</h3>
+      <button class="btn-close" (click)="cerrar()" aria-label="Cerrar modal">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="cliente-info">
+        <div class="info-item">
+          <strong>Nombre:</strong>
+          <span>{{ cliente?.nombreCompleto }}</span>
+        </div>
+        <div class="info-item">
+          <strong>Correo:</strong>
+          <span>{{ cliente?.email }}</span>
+        </div>
+        <div class="info-item">
+          <strong>Teléfono:</strong>
+          <span>{{ cliente?.telefono }}</span>
+        </div>
+        <div class="info-item">
+          <strong>Fecha de Registro:</strong>
+          <span>{{ cliente?.fechaRegistro | date:'mediumDate' }}</span>
+        </div>
+        <div class="info-item">
+          <strong>Dispositivos:</strong>
+          <span>{{ cliente?.dispositivos }}</span>
+        </div>
+        <div class="info-item">
+          <strong>Estado:</strong>
+          <span [ngClass]="cliente?.activo ? 'estado-activo' : 'estado-inactivo'">
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="cerrar()">Cerrar</button>
+    </div>
+  </div>
+</div>

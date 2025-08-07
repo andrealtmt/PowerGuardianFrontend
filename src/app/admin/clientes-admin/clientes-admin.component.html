@@ -1,0 +1,221 @@
+<div class="clientes-admin-container">
+  <!-- Header mejorado -->
+  <div class="page-header">
+    <h2>
+      Clientes Registrados
+    </h2>
+  </div>
+
+  <!-- Indicador de carga -->
+  <div *ngIf="loading" class="loading-container">
+    <i class="fas fa-spinner fa-spin"></i>
+    <span>Cargando clientes...</span>
+  </div>
+
+  <!-- Componente de búsqueda y filtro -->
+  <div *ngIf="!loading">
+    <app-table-search-filter
+      [config]="searchFilterConfig"
+      [totalItems]="clientes.length"
+      [filteredItems]="clientesFiltrados.length"
+      [loading]="loading"
+      (searchChange)="onSearchFilterChange($event)"
+      (clearFilters)="onClearFilters()"
+    ></app-table-search-filter>
+  </div>
+
+  <!-- Tabla mejorada -->
+  <div *ngIf="!loading" class="tabla-container">
+    <table class="tabla-clientes">
+      <thead>
+        <tr>
+          <th>
+            Nombre
+          </th>
+          <th>
+            Correo
+          </th>
+          <th>
+            Teléfono
+          </th>
+          <th>
+            Registro
+          </th>
+          <th>
+            Dispositivos
+          </th>
+          <th>
+            Estado
+          </th>
+          <th>
+            Acciones
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of clientesFiltrados" [class.cliente-inactivo]="!c.activo">
+          <td class="nombre-cell">
+            <div class="cliente-info">
+              <span class="nombre">{{ c.nombreCompleto }}</span>
+            </div>
+          </td>
+          <td class="email-cell">{{ c.email }}</td>
+          <td class="telefono-cell">
+            <span *ngIf="c.telefono; else noTelefonoTemplate" class="telefono">
+              {{ c.telefono }}
+            </span>
+            <ng-template #noTelefonoTemplate>
+              <span class="no-data">No especificado</span>
+            </ng-template>
+          </td>
+          <td class="fecha-cell">
+            <span class="fecha">{{ c.fechaRegistro | date:'dd/MM/yyyy' }}</span>
+            <span class="hora">{{ c.fechaRegistro | date:'HH:mm' }}</span>
+          </td>
+          <td class="dispositivos-cell">
+            <span class="dispositivos-count" [class.sin-dispositivos]="c.dispositivos === 0">
+              {{ c.dispositivos }}
+            </span>
+          </td>
+          <td class="estado-cell">
+            <span class="estado-badge" [ngClass]="c.activo ? 'activo' : 'inactivo'">
+              <i [class]="c.activo ? 'fas fa-check-circle' : 'fas fa-times-circle'"></i>
+              {{ c.activo ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td class="acciones-cell">
+            <div class="acciones-container">
+              <button
+                class="btn btn-edit"
+                (click)="editarCliente(c)"
+                title="Editar cliente"
+              >
+                <i class="fas fa-edit"></i>
+              </button>
+              <button
+                *ngIf="c.activo"
+                class="btn btn-danger"
+                (click)="cambiarEstadoCliente(c, false)"
+                title="Desactivar cliente"
+              >
+                <i class="fas fa-user-times"></i>
+              </button>
+              <button
+                *ngIf="!c.activo"
+                class="btn btn-success"
+                (click)="cambiarEstadoCliente(c, true)"
+                title="Activar cliente"
+              >
+                <i class="fas fa-user-check"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Estado vacío -->
+    <div *ngIf="clientesFiltrados.length === 0 && clientes.length > 0" class="no-results">
+      <div class="no-results-icon">
+        <i class="fas fa-search"></i>
+      </div>
+      <h3>No se encontraron resultados</h3>
+      <p>Intenta ajustar los filtros de búsqueda</p>
+    </div>
+
+    <div *ngIf="clientes.length === 0" class="empty-state">
+      <div class="empty-icon">
+        <i class="fas fa-users"></i>
+      </div>
+      <h3>No hay clientes registrados</h3>
+      <p>Los clientes aparecerán aquí cuando se registren en la plataforma</p>
+    </div>
+  </div>
+
+  <!-- Formulario de Edición -->
+  <div *ngIf="mostrarFormularioEdicion" class="formulario-container">
+    <div class="formulario">
+      <h3>Editar Cliente</h3>
+      <form (ngSubmit)="guardarCambios()" #form="ngForm">
+        <div class="form-row">
+          <div class="input-group">
+            <label for="nombres">Nombres *</label>
+            <input
+              id="nombres"
+              [(ngModel)]="formulario.nombres"
+              name="nombres"
+              placeholder="Nombres del cliente"
+              required
+              maxlength="100"
+            />
+          </div>
+          <div class="input-group">
+            <label for="apellidoPaterno">Apellido Paterno *</label>
+            <input
+              id="apellidoPaterno"
+              [(ngModel)]="formulario.apellidoPaterno"
+              name="apellidoPaterno"
+              placeholder="Apellido paterno"
+              required
+              maxlength="100"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="input-group">
+            <label for="apellidoMaterno">Apellido Materno</label>
+            <input
+              id="apellidoMaterno"
+              [(ngModel)]="formulario.apellidoMaterno"
+              name="apellidoMaterno"
+              placeholder="Apellido materno"
+              maxlength="100"
+            />
+          </div>
+          <div class="input-group">
+            <label for="phoneNumber">Teléfono</label>
+            <input
+              id="phoneNumber"
+              [(ngModel)]="formulario.phoneNumber"
+              name="phoneNumber"
+              placeholder="Número de teléfono"
+              maxlength="20"
+            />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="email">Correo Electrónico *</label>
+          <input
+            id="email"
+            [(ngModel)]="formulario.email"
+            name="email"
+            placeholder="correo@ejemplo.com"
+            type="email"
+            required
+            maxlength="200"
+          />
+        </div>
+
+        <div class="form-actions">
+          <button type="button" (click)="cancelarEdicion()" class="btn-cancelar">
+            <i class="fas fa-times"></i>
+            Cancelar
+          </button>
+          <button type="submit" class="btn-primario" [disabled]="guardando || !form.valid">
+            <i class="fas fa-save"></i>
+            {{ guardando ? 'Guardando...' : 'Actualizar' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <app-cliente-detalles
+    [cliente]="clienteSeleccionado"
+    [visible]="modalVisible"
+    (visibleChange)="modalVisible = $event">
+  </app-cliente-detalles>
+</div>
+

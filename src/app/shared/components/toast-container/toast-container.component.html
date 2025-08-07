@@ -1,0 +1,8 @@
+<div class="toast-container">
+  <app-toast
+    *ngFor="let toast of toasts; trackBy: trackByToastId"
+    [config]="toast.config"
+    [visible]="toast.visible"
+    (visibleChange)="onToastClosed(toast.id)">
+  </app-toast>
+</div>

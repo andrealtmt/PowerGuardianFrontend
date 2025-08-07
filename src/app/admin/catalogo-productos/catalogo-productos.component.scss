@@ -1,0 +1,537 @@
+@import '../../../styles/_global.scss';
+
+.catalogo-container {
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    color: $texto-principal;
+    font-size: 2.2rem;
+    font-weight: $font-semibold;
+    padding-bottom: 1em;
+  }
+
+  .btn-primario {
+    background: $verde-oscuro;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+
+    &:hover:not(:disabled) {
+      background: darken($verde-oscuro, 10%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba($verde-oscuro, 0.3);
+    }
+
+    &:disabled {
+      background: $gris-claro;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    i {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.mensaje {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: 500;
+
+  &.success {
+    background: lighten($verde-claro, 10%);
+    color: $verde-oscuro;
+    border: 1px solid $verde-claro;
+  }
+
+  &.error {
+    background: lighten($rojo-error, 35%);
+    color: $rojo-error;
+    border: 1px solid lighten($rojo-error, 20%);
+  }
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: $gris-oscuro;
+  font-size: 1.1rem;
+
+  i {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    display: block;
+  }
+}
+
+.formulario-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.formulario {
+  padding: 24px;
+
+  h3 {
+    color: $texto-principal;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    padding-bottom: 12px;
+    border-bottom: 2px solid $azul-claro;
+  }
+
+  .input-group {
+    margin-bottom: 20px;
+
+    label {
+      display: block;
+      font-weight: 600;
+      color: $texto-principal;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid $gris-claro;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: $azul-oscuro;
+        box-shadow: 0 0 0 3px rgba($azul-oscuro, 0.1);
+      }
+
+      &:invalid {
+        border-color: $rojo-error;
+      }
+    }
+
+    .file-input-container {
+      position: relative;
+
+      .file-input {
+        opacity: 0;
+        position: absolute;
+        width: 0;
+        height: 0;
+      }
+
+      .file-input-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+        border: 2px dashed $gris-claro;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+        font-size: 1rem;
+        color: $texto-principal;
+
+        &:hover {
+          border-color: $azul-oscuro;
+          background: lighten($azul-claro, 15%);
+        }
+
+        i {
+          font-size: 1.2rem;
+          color: $azul-oscuro;
+        }
+      }
+    }
+
+    .image-preview {
+      position: relative;
+      margin-top: 12px;
+      display: inline-block;
+
+      .preview-img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 2px solid $gris-claro;
+      }
+
+      .remove-image-btn {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: $rojo-error;
+        color: white;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: darken($rojo-error, 10%);
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    .file-help {
+      display: block;
+      margin-top: 6px;
+      color: $gris-oscuro;
+      font-size: 0.8rem;
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid $gris-claro;
+
+    button {
+      padding: 12px 20px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+
+      i {
+        font-size: 0.9rem;
+      }
+
+      &.btn-primario {
+        background: $verde-oscuro;
+        color: white;
+
+        &:hover:not(:disabled) {
+          background: darken($verde-oscuro, 10%);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba($verde-oscuro, 0.3);
+        }
+
+        &:disabled {
+          background: $gris-claro;
+          cursor: not-allowed;
+          transform: none;
+          box-shadow: none;
+        }
+      }
+
+      &.btn-cancelar {
+        background: $rojo-error;
+        color: white;
+
+        &:hover {
+          background: darken($rojo-error, 10%);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba($rojo-error, 0.3);
+        }
+      }
+    }
+  }
+}
+
+.tabla-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.tabla-productos {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+
+  thead {
+    background: $azul-oscuro;
+
+    th {
+      padding: 16px 12px;
+      color: white;
+      font-weight: 600;
+      text-align: left;
+      border: none;
+      font-size: 0.9em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  tbody {
+    tr {
+      transition: all 0.2s ease;
+      border-bottom: 1px solid #e9ecef;
+
+      &:hover {
+        background: #f8f9fa;
+      }
+
+      &.sin-stock {
+        opacity: 0.7;
+        background: #fff5f5;
+      }
+
+      td {
+        padding: 16px 12px;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  .imagen-cell {
+    width: 80px;
+
+    .imagen-container {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .producto-imagen {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .sin-imagen {
+        color: $gris-claro;
+        font-size: 0.8rem;
+        text-align: center;
+
+        i {
+          display: block;
+          font-size: 1.2rem;
+          margin-bottom: 4px;
+        }
+      }
+    }
+  }
+
+  .descripcion-cell {
+    .descripcion {
+      color: $texto-principal;
+      line-height: 1.4;
+    }
+  }
+
+  .precio-cell {
+    .precio {
+      font-weight: 600;
+      color: $verde-oscuro;
+      font-size: 1.1rem;
+    }
+  }
+
+  .stock-cell {
+    .stock {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      background: lighten($verde-claro, 10%);
+      color: $verde-oscuro;
+
+      &.sin-stock {
+        background: lighten($rojo-error, 35%);
+        color: $rojo-error;
+      }
+    }
+  }
+
+  .acciones-cell {
+    .acciones {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+
+      button {
+        width: 36px;
+        height: 36px;
+        border-radius: 6px;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 0.9rem;
+
+        &.btn-editar {
+          background: lighten($azul-claro, 10%);
+          color: $azul-oscuro;
+
+          &:hover {
+            background: $azul-claro;
+            transform: scale(1.1);
+          }
+        }
+
+        &.btn-stock {
+          background: lighten($verde-claro, 10%);
+          color: $verde-oscuro;
+
+          &:hover {
+            background: $verde-claro;
+            transform: scale(1.1);
+          }
+        }
+
+        &.btn-eliminar {
+          background: lighten($rojo-error, 35%);
+          color: $rojo-error;
+
+          &:hover {
+            background: lighten($rojo-error, 25%);
+            transform: scale(1.1);
+          }
+        }
+      }
+    }
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: $gris-oscuro;
+
+  i {
+    font-size: 4rem;
+    color: $gris-claro;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: $texto-principal;
+  }
+
+  p {
+    font-size: 1rem;
+    margin: 0 0 24px 0;
+    color: $gris-oscuro;
+  }
+
+  .btn-primario {
+    background: $azul-oscuro;
+    color: white;
+    padding: 14px 24px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: darken($azul-oscuro, 10%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba($azul-oscuro, 0.3);
+    }
+
+    i {
+      font-size: 1rem;
+      margin: 0;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .catalogo-container {
+    padding: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+
+    h2 {
+      font-size: 1.6rem;
+      text-align: center;
+    }
+
+    .btn-primario {
+      justify-content: center;
+    }
+  }
+
+  .formulario {
+    padding: 20px;
+
+    .form-actions {
+      flex-direction: column;
+
+      button {
+        justify-content: center;
+      }
+    }
+  }
+
+  .tabla-productos {
+    font-size: 12px;
+
+    .imagen-cell {
+      .imagen-container {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    .acciones-cell {
+      .acciones {
+        flex-direction: column;
+        gap: 4px;
+
+        button {
+          width: 32px;
+          height: 32px;
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+}

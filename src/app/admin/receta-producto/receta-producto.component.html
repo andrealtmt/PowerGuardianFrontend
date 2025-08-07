@@ -1,0 +1,266 @@
+<div class="receta-producto-container">
+  <!-- Header de página -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="title-section">
+        <h2 class="header-left">
+          Explosión de materiales
+        </h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- Indicador de carga -->
+  <div *ngIf="cargando" class="loading-container">
+    <i class="fas fa-spinner fa-spin"></i>
+    Cargando datos...
+  </div>
+
+  <!-- Selector de producto -->
+  <div *ngIf="!cargando" class="producto-selector-container">
+    <div class="form-group selector-grupo">
+      <label for="productoSelect">
+        Seleccionar Producto
+      </label>
+      <select
+        id="productoSelect"
+        [(ngModel)]="productoIdSeleccionado"
+        (change)="onProductoChange()"
+        class="form-select"
+      >
+        <option [ngValue]="0" disabled>-- Selecciona un producto --</option>
+        <option *ngFor="let p of productos" [ngValue]="p.id">
+          {{ p.nombre }} - {{ p.precioVenta | currency }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Información del producto seleccionado -->
+  <!-- <div *ngIf="productoSeleccionado && !cargandoReceta" class="producto-info-card">
+    <div class="card-header">
+      <h3>
+        <i class="fas fa-info-circle"></i>
+        {{ productoSeleccionado.nombre }}
+      </h3>
+    </div>
+    <div class="card-body">
+      <div class="info-stats">
+        <div class="stat-item">
+          <span class="stat-label">Precio de Venta:</span>
+          <span class="stat-value precio-venta">{{ productoSeleccionado.precioVenta | currency }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Costo Estimado:</span>
+          <span class="stat-value costo-estimado">{{ estadisticas.costoTotal | currency }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Margen:</span>
+          <span class="stat-value margen" [class.margen-positivo]="estadisticas.margenEstimado > 0">
+            {{ estadisticas.margenEstimado | number:'1.1-1' }}%
+          </span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Ingredientes:</span>
+          <span class="stat-value">{{ estadisticas.ingredientesCount }}</span>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Contenido principal cuando hay producto seleccionado -->
+  <div *ngIf="productoIdSeleccionado && !cargandoReceta">
+    <!-- Botón agregar ingrediente -->
+    <div class="actions-container">
+      <button
+        class="btn-primario"
+        (click)="mostrarFormularioAgregar()"
+        [disabled]="cargando"
+      >
+        <i class="fas fa-plus"></i>
+        Agregar Ingrediente
+      </button>
+    </div>
+
+    <!-- Formulario Modal -->
+    <div *ngIf="mostrarFormulario" class="modal-overlay">
+      <div class="modal-ingrediente">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>
+              <i class="fas fa-plus"></i>
+              Agregar Ingrediente
+            </h3>
+          </div>
+
+          <div class="modal-body">
+            <form (ngSubmit)="agregar()" #form="ngForm">
+              <div class="form-group">
+                <label for="materiaPrima">Materia Prima *</label>
+                <select
+                  id="materiaPrima"
+                  [(ngModel)]="nuevo.materiaPrimaId"
+                  name="materiaPrima"
+                  required
+                  class="form-select"
+                >
+                  <option [ngValue]="0" disabled>-- Selecciona una materia prima --</option>
+                  <option *ngFor="let m of getMateriasDisponibles()" [ngValue]="m.id">
+                    {{ m.nombre }} ({{ m.unidadMedida }}) - {{ m.costoUnitario | currency }}
+                  </option>
+                </select>
+                <div class="form-help">
+                  Solo se muestran materias primas no agregadas a la receta
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="cantidad">Cantidad *</label>
+                <input
+                  id="cantidad"
+                  [(ngModel)]="nuevo.cantidad"
+                  name="cantidad"
+                  type="number"
+                  step="0.01"
+                  min="0.01"
+                  placeholder="0.00"
+                  required
+                />
+                <div class="form-help" *ngIf="nuevo.materiaPrimaId">
+                  Unidad: {{ getUnidadMateriaPrima(nuevo.materiaPrimaId) }}
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="modal-actions">
+            <button
+              type="button"
+              class="btn-cancelar"
+              (click)="cancelarFormulario()"
+              [disabled]="cargando"
+            >
+              <i class="fas fa-times"></i>
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="btn-primario"
+              (click)="agregar()"
+              [disabled]="cargando || !nuevo.materiaPrimaId || !nuevo.cantidad"
+            >
+              <i class="fas fa-{{ cargando ? 'spinner fa-spin' : 'save' }}"></i>
+              {{ cargando ? 'Guardando...' : 'Agregar' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Componente de búsqueda y filtro -->
+    <app-table-search-filter
+      *ngIf="receta.length > 0"
+      [config]="searchFilterConfig"
+      [totalItems]="receta.length"
+      [filteredItems]="recetaFiltrada.length"
+      [loading]="cargandoReceta"
+      (searchChange)="onSearchFilterChange($event)"
+      (clearFilters)="onClearFilters()"
+    ></app-table-search-filter>
+
+    <!-- Tabla de ingredientes -->
+    <div *ngIf="receta.length > 0" class="tabla-container">
+      <table class="tabla-moderna">
+        <thead>
+          <tr>
+            <th><i class="fas fa-seedling"></i>Ingrediente</th>
+            <th><i class="fas fa-balance-scale"></i>Unidad</th>
+            <th><i class="fas fa-sort-numeric-down"></i>Cantidad</th>
+            <th><i class="fas fa-dollar-sign"></i>Costo Unit.</th>
+            <th><i class="fas fa-calculator"></i>Costo Total</th>
+            <th><i class="fas fa-cogs"></i>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ingrediente of recetaFiltrada">
+            <!-- Ingrediente -->
+            <td>
+              <div class="ingrediente-info">
+                <span class="ingrediente-nombre">{{ ingrediente.materiaPrimaNombre }}</span>
+              </div>
+            </td>
+
+            <!-- Unidad -->
+            <td>
+              <span class="unidad-badge">{{ ingrediente.unidadMedida }}</span>
+            </td>
+
+            <!-- Cantidad -->
+            <td>
+              <span class="cantidad-value">{{ ingrediente.cantidad | number:'1.2-2' }}</span>
+            </td>
+
+            <!-- Costo unitario -->
+            <td>
+              <span class="costo-unitario">{{ ingrediente.costoUnitario | currency }}</span>
+            </td>
+
+            <!-- Costo total -->
+            <td>
+              <span class="costo-total">{{ (ingrediente.cantidad * ingrediente.costoUnitario) | currency }}</span>
+            </td>
+
+            <!-- Acciones -->
+            <td>
+              <div class="acciones-container">
+                <button
+                  class="btn btn-danger"
+                  (click)="eliminar(ingrediente.id, ingrediente.materiaPrimaNombre)"
+                  [disabled]="cargando"
+                  title="Eliminar ingrediente"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="total-row">
+            <td colspan="4" class="total-label">
+              <strong>Costo Total Estimado: &nbsp;</strong>
+            </td>
+            <td class="total-value">
+              <strong>{{ costoTotal() | currency }}</strong>
+            </td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- Estado vacío para ingredientes -->
+    <div *ngIf="receta.length === 0" class="empty-state">
+      <div class="empty-icon">
+        <i class="fas fa-clipboard-list"></i>
+      </div>
+      <h3>Sin materiales</h3>
+      <p>Este producto aún no tiene materiales asignados. Agrega más usando el botón de arriba.</p>
+    </div>
+  </div>
+
+  <!-- Indicador de carga de receta -->
+  <div *ngIf="cargandoReceta" class="loading-container">
+    <i class="fas fa-spinner fa-spin"></i>
+    Cargando materiales del producto...
+  </div>
+
+  <!-- Estado cuando no hay producto seleccionado -->
+  <div *ngIf="!productoIdSeleccionado && !cargando" class="no-selection">
+    <div class="no-selection-icon">
+      <i class="fas fa-arrow-up"></i>
+    </div>
+    <h3>Selecciona un producto</h3>
+    <p>Elige un producto para ver y gestionar su explosión de materiales</p>
+  </div>
+</div>

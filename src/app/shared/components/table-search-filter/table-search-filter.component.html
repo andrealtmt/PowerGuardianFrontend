@@ -1,0 +1,117 @@
+<div class="search-filter-container">
+  <!-- Barra de búsqueda principal -->
+  <div class="search-bar">
+    <div class="search-input-group">
+      <div class="search-input-container">
+        <i class="fas fa-search search-icon"></i>
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="onSearchChange()"
+          [placeholder]="config.searchPlaceholder"
+          class="search-input"
+        />
+        <button
+          *ngIf="searchTerm.length > 0"
+          (click)="searchTerm = ''; onSearchChange()"
+          class="clear-search-btn"
+          type="button"
+        >
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Botón de filtros avanzados -->
+      <button
+        *ngIf="config.filters && config.filters.length > 0"
+        (click)="toggleAdvancedFilters()"
+        class="filter-toggle-btn"
+        [class.active]="showAdvancedFilters"
+        type="button"
+      >
+        <i class="fas fa-filter"></i>
+        Filtros
+        <span *ngIf="getActiveFiltersCount() > 0" class="filter-count">
+          {{ getActiveFiltersCount() }}
+        </span>
+      </button>
+
+      <!-- Botón limpiar filtros -->
+      <button
+        *ngIf="hasActiveFilters()"
+        (click)="clearAllFilters()"
+        class="clear-filters-btn"
+        type="button"
+      >
+        <i class="fas fa-eraser"></i>
+        Limpiar
+      </button>
+    </div>
+
+    <!-- Contador de resultados -->
+    <div *ngIf="config.showItemCount" class="results-count">
+      <span *ngIf="!loading && filteredItems !== totalItems" class="filtered-count">
+        {{ filteredItems }} de {{ totalItems }} elementos
+      </span>
+      <span *ngIf="!loading && filteredItems === totalItems" class="total-count">
+        {{ totalItems }} elementos
+      </span>
+      <span *ngIf="loading" class="loading-count">
+        <i class="fas fa-spinner fa-spin"></i>
+        Cargando...
+      </span>
+    </div>
+  </div>
+
+  <!-- Filtros avanzados -->
+  <div *ngIf="showAdvancedFilters && config.filters && config.filters.length > 0" class="advanced-filters">
+    <div class="filters-grid">
+      <div
+        *ngFor="let filter of config.filters"
+        class="filter-group"
+      >
+        <label class="filter-label">{{ filter.label }}</label>
+        <select
+          #selectEl
+          [value]="activeFilters[filter.key]"
+          (change)="onFilterChange(filter.key, selectEl.value)"
+          class="filter-select"
+        >
+          <option value="">Todos</option>
+          <option
+            *ngFor="let option of filter.options"
+            [value]="option.value"
+          >
+            {{ option.label }}
+            <span *ngIf="option.count !== undefined">({{ option.count }})</span>
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Indicadores de filtros activos -->
+  <div *ngIf="hasActiveFilters()" class="active-filters">
+    <div class="filter-tags">
+      <span *ngIf="searchTerm.length > 0" class="filter-tag search-tag">
+        <i class="fas fa-search"></i>
+        "{{ searchTerm }}"
+        <button (click)="searchTerm = ''; onSearchChange()" class="remove-tag">
+          <i class="fas fa-times"></i>
+        </button>
+      </span>
+
+      <span
+        *ngFor="let filter of config.filters"
+        [hidden]="!activeFilters[filter.key] || activeFilters[filter.key] === ''"
+        class="filter-tag"
+      >
+        <i class="fas fa-tag"></i>
+        {{ filter.label }}: {{ getFilterOptionLabel(filter, activeFilters[filter.key]) }}
+        <button (click)="onFilterChange(filter.key, null)" class="remove-tag">
+          <i class="fas fa-times"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+</div>

@@ -73,8 +73,22 @@ $font-italic: italic;
 $font-semibold: 600;
 $font-bold: 700;
 $font-extrabold: 800;
+$font-medium: 500;
 
 $radius: 8px;
+
+// 🎨 Mixins útiles
+@mixin badge-style($background-color, $text-color) {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  background-color: $background-color;
+  color: $text-color;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
 
 body {
   font-family: $font-poppins;
@@ -95,7 +109,7 @@ body {
 // botón principal
 button {
   padding: 0.75rem;
-  margin-top: 1rem;
+  margin-top: 0;
   border: none;
   border-radius: 8px;
   font-size: 1rem;
@@ -206,4 +220,713 @@ input[type="date"] {
   font-size: 0.95rem;
   margin-top: 0.75rem;
   text-align: center;
+}
+
+h2 {
+  color: $texto-principal;
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0;
+  padding-bottom: .9em;
+}
+
+// 🏗️ COMPONENTES REUTILIZABLES
+
+// Page Headers
+.page-header {
+  margin-bottom: 2rem;
+
+  &.page-header-with-actions {
+    text-align: left;
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+      }
+
+      .title-section {
+        flex: 1;
+      }
+    }
+  }
+
+  h2 {
+    color: $texto-principal;
+    font-size: 2.2rem;
+    font-weight: $font-semibold;
+    padding: 0;
+
+    @media (max-width: 768px) {
+      font-size: 1.8rem;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    &.header-left {
+      justify-content: flex-start;
+    }
+
+    i {
+      color: $azul-oscuro;
+      font-size: 1.8rem;
+    }
+  }
+
+  .page-description {
+    color: $gris-oscuro;
+    font-size: 1rem;
+    margin: 0;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
+
+    &.description-left {
+      margin: 0;
+    }
+  }
+}
+
+// Loading States
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 3rem;
+  color: $azul-oscuro;
+  font-weight: $font-semibold;
+  font-size: 1.1rem;
+
+  i {
+    font-size: 1.5rem;
+  }
+}
+
+// Botones mejorados
+.btn-primario {
+  background: $verde-oscuro;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: $radius;
+  border: none;
+  font-weight: $font-semibold;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba($verde-oscuro, 0.2);
+
+  &:hover:not(:disabled) {
+    background: darken($verde-oscuro, 5%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba($verde-oscuro, 0.3);
+  }
+
+  &:disabled {
+    background: $gris-claro;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  i {
+    font-size: 1rem;
+  }
+
+  &.btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+.btn-secundario {
+  background: $azul-oscuro;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: $radius;
+  border: none;
+  font-weight: $font-semibold;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba($azul-oscuro, 0.2);
+
+  &:hover:not(:disabled) {
+    background: darken($azul-oscuro, 5%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba($azul-oscuro, 0.3);
+  }
+
+  &:disabled {
+    background: $gris-claro;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  i {
+    font-size: 1rem;
+  }
+
+  &.btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+// Botones de acción
+.btn-edit {
+  background: lighten($azul-claro, 10%);
+  color: $azul-oscuro;
+
+  &:hover {
+    background: $azul-claro;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba($azul-oscuro, 0.2);
+  }
+}
+
+.btn-success {
+  background: lighten($verde-claro, 10%);
+  color: $verde-oscuro;
+
+  &:hover {
+    background: $verde-claro;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba($verde-oscuro, 0.2);
+  }
+}
+
+.btn-danger {
+  background: lighten($rojo-error, 35%);
+  color: $rojo-error;
+
+  &:hover {
+    background: lighten($rojo-error, 25%);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba($rojo-error, 0.2);
+  }
+}
+
+// Tabla moderna reutilizable
+.tabla-container {
+  background: white;
+  border-radius: $radius;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.tabla-moderna {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+
+  thead {
+    background: $azul-oscuro;
+
+    th {
+      padding: 1rem;
+      color: white;
+      font-weight: $font-semibold;
+      text-align: left;
+      border: none;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+
+      i {
+        margin-right: 0.5rem;
+        opacity: 0.9;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      transition: all 0.3s ease;
+      border-bottom: 1px solid #e9ecef;
+
+      &:hover {
+        background-color: lighten($verde-claro, 20%);
+        transform: translateY(-1px);
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      td {
+        padding: 1rem 0.75rem;
+        border: none;
+        vertical-align: middle;
+        color: $texto-principal;
+      }
+
+      // Estados especiales
+      &.row-highlighted {
+        background-color: lighten($azul-claro, 25%);
+        border-left: 4px solid $azul-oscuro;
+      }
+
+      &.row-warning {
+        background-color: lighten(orange, 45%);
+        border-left: 4px solid orange;
+      }
+
+      &.row-danger {
+        background-color: lighten($rojo-error, 45%);
+        border-left: 4px solid $rojo-error;
+      }
+
+      &.row-inactive {
+        opacity: 0.7;
+        background-color: #f8f9fa;
+      }
+    }
+  }
+}
+
+// Badges de estado
+.estado-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: $font-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &.activo, &.disponible {
+    background: lighten($verde-claro, 15%);
+    color: $verde-oscuro;
+    border: 1px solid rgba($verde-oscuro, 0.2);
+  }
+
+  &.inactivo, &.vendida {
+    background: lighten($azul-claro, 15%);
+    color: $azul-oscuro;
+    border: 1px solid rgba($azul-oscuro, 0.2);
+  }
+
+  &.danada, &.error {
+    background: lighten($rojo-error, 40%);
+    color: $rojo-error;
+    border: 1px solid rgba($rojo-error, 0.2);
+  }
+
+  &.pendiente, &.warning {
+    background: lighten(orange, 40%);
+    color: darken(orange, 20%);
+    border: 1px solid orange;
+  }
+
+  &.default {
+    background: lighten($gris-claro, 15%);
+    color: $gris-oscuro;
+    border: 1px solid rgba($gris-oscuro, 0.2);
+  }
+
+  i {
+    font-size: 0.9rem;
+  }
+}
+
+// Estados vacíos
+.empty-state, .no-results {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: $gris-oscuro;
+
+  .empty-icon, .no-results-icon {
+    font-size: 4rem;
+    color: $gris-claro;
+    margin-bottom: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: $font-semibold;
+    margin: 0 0 1rem 0;
+    color: $texto-principal;
+  }
+
+  p {
+    font-size: 1rem;
+    margin: 0 0 2rem 0;
+    color: $gris-oscuro;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+}
+
+.no-results {
+  background: linear-gradient(135deg, lighten($azul-claro, 25%), lighten($verde-claro, 25%));
+  border-radius: $radius;
+  margin: 2rem 0;
+
+  .no-results-icon {
+    color: $azul-oscuro;
+  }
+}
+
+// Contenedores de página
+.page-container {
+  padding: 20px;
+  min-height: 100vh;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+}
+
+// Cards de contenido
+.content-card {
+  background: white;
+  border-radius: $radius;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-header {
+    background: $azul-oscuro;
+    color: white;
+    padding: 1.25rem 1.5rem;
+
+    h3 {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: $font-semibold;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      i {
+        font-size: 1.1rem;
+      }
+
+      .count-badge {
+        background: $verde-oscuro;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: $font-bold;
+        margin-left: auto;
+      }
+    }
+  }
+
+  .card-content {
+    padding: 1.5rem;
+  }
+}
+
+// Acciones de tabla
+.acciones-container {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+
+  .btn {
+    width: 36px;
+    height: 36px;
+    border-radius: $radius;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+
+    i {
+      font-size: 1rem;
+    }
+  }
+}
+
+// Información de fechas
+.fecha-info {
+  .fecha {
+    display: block;
+    font-weight: $font-semibold;
+    color: $texto-principal;
+    font-size: 0.9rem;
+  }
+
+  .hora {
+    display: block;
+    color: $gris-oscuro;
+    font-size: 0.8rem;
+    margin-top: 2px;
+  }
+}
+
+.btn-eliminar {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  background: lighten($rojo-error, 35%);
+  color: $rojo-error;
+
+  &:hover {
+    background: lighten($rojo-error, 25%);
+    transform: scale(1.1);
+  }
+}
+
+// 🎭 MODAL GLOBAL STYLES
+// Estilos reutilizables para modales en toda la aplicación
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+// Contenedor principal del modal
+.modal-inventario, .modal-proveedor, .modal-materia, .modal-ingrediente, .modal-manual, .modal-dispositivo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow: hidden;
+  animation: slideIn 0.3s ease;
+  z-index: 1001;
+
+  @media (max-width: 768px) {
+    width: 95%;
+    max-width: none;
+    margin: 1rem;
+  }
+
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .modal-header {
+    background: $azul-oscuro;
+    color: white;
+    padding: 1.5rem;
+    border-radius: 12px 12px 0 0;
+
+    h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: $font-semibold;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      i {
+        font-size: 1.1rem;
+      }
+    }
+  }
+
+  .modal-body {
+    padding: 2rem;
+    flex: 1;
+    overflow-y: auto;
+
+    @media (max-width: 768px) {
+      padding: 1.5rem;
+    }
+
+    // Estilos para formularios dentro del modal
+    .form-group {
+      margin-bottom: 1.5rem;
+
+      label {
+        display: block;
+        font-weight: $font-semibold;
+        color: $texto-principal;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      input, select, textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 2px solid $gris-claro;
+        border-radius: $radius;
+        font-size: 0.9rem;
+        color: $texto-principal;
+        background: white;
+        transition: all 0.3s ease;
+        font-family: $font-poppins;
+
+        &:focus {
+          outline: none;
+          border-color: $azul-oscuro;
+          box-shadow: 0 0 0 3px rgba($azul-oscuro, 0.1);
+        }
+
+        &:disabled {
+          background-color: #f9f9f9;
+          color: $gris-oscuro;
+          cursor: not-allowed;
+        }
+
+        &::placeholder {
+          color: $gris-claro;
+          font-style: italic;
+        }
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-help {
+      font-size: 0.75rem;
+      color: $gris-oscuro;
+      margin-top: 0.25rem;
+      font-style: italic;
+    }
+
+    // Checkbox personalizado
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      font-weight: $font-regular !important;
+
+      input[type="checkbox"] {
+        display: none;
+      }
+
+      .checkmark {
+        width: 20px;
+        height: 20px;
+        border: 2px solid $gris-claro;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        background: white;
+
+        &::after {
+          content: '✓';
+          color: white;
+          font-weight: bold;
+          opacity: 0;
+          transform: scale(0);
+          transition: all 0.2s ease;
+        }
+      }
+
+      input[type="checkbox"]:checked + .checkmark {
+        background: $verde-oscuro;
+        border-color: $verde-oscuro;
+
+        &::after {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    }
+  }
+
+  .modal-actions {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+
+    @media (max-width: 768px) {
+      padding: 1rem;
+      flex-direction: column;
+    }
+  }
+}
+
+// Clase para modal más ancho (ej: historial)
+.modal-wide {
+  max-width: 1000px;
+  width: 95%;
+}
+
+// Clase para modal estrecho (ej: confirmaciones)
+.modal-narrow {
+  max-width: 400px;
 }

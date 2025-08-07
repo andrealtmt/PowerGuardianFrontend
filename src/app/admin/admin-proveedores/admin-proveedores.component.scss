@@ -1,0 +1,38 @@
+@import 'src/styles/global';
+
+// 🎨 COMPONENTE DE PROVEEDORES ADMIN - USANDO ESTILOS GLOBALES
+.proveedores-container {
+  @extend .page-container;
+}
+
+// Personalización específica del modal
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  user-select: none;
+  padding: 0.5rem 0;
+
+  input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .checkmark {
+    color: $texto-principal;
+  }
+}
+
+// Responsivo específico para proveedores
+@media (max-width: 768px) {
+  .proveedores-container {
+    .tabla-moderna {
+      th:nth-child(4),
+      td:nth-child(4) {
+        display: none; // Ocultar país en móviles
+      }
+    }
+  }
+}

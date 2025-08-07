@@ -1,27 +1,213 @@
-<h2>Gestión de Manuales</h2>
+<div class="manuales-container page-container">
+  <!-- Header de la página -->
+  <div class="page-header page-header-with-actions">
+    <div class="header-content">
+      <div class="title-section">
+        <h2 class="header-left">Gestión de Manuales</h2>
+        <p class="page-description description-left">
+          Administra los manuales y documentos de la empresa
+        </p>
+      </div>
+      <div class="action-section">
+        <button
+          class="btn-primario"
+          (click)="abrirFormulario()"
+          [disabled]="cargando">
+          <i class="fas fa-plus"></i>
+          Subir Manual
+        </button>
+      </div>
+    </div>
+  </div>
 
-<form (ngSubmit)="subirManual()" [formGroup]="manualForm" enctype="multipart/form-data">
-  <label>Nombre del manual:</label>
-  <input formControlName="nombre" type="text" />
+  <!-- Estado de carga -->
+  <div *ngIf="cargando" class="loading-container">
+    <i class="fas fa-spinner fa-spin"></i>
+    Cargando manuales...
+  </div>
 
-  <label>Descripción:</label>
-  <input formControlName="descripcion" type="text" />
+  <!-- Contenido principal -->
+  <div *ngIf="!cargando">
+    <!-- Buscador y filtros -->
+    <app-table-search-filter
+      [config]="searchFilterConfig"
+      [totalItems]="manuales.length"
+      [filteredItems]="manualesFiltrados.length"
+      [loading]="false"
+      (searchChange)="onSearchFilterChange($event)"
+      (clearFilters)="onClearFilters()">
+    </app-table-search-filter>
 
-  <label>Archivo PDF:</label>
-  <input type="file" (change)="onFileChange($event)" accept="application/pdf" />
+    <!-- Tabla de manuales -->
+    <div class="tabla-container" *ngIf="manualesFiltrados.length > 0">
+      <table class="tabla-moderna">
+        <thead>
+          <tr>
+            <th>Archivo</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let manual of manualesFiltrados">
+            <td>
+              <div class="archivo-info">
+                <i [class]="getFileIcon(manual)" class="archivo-icon"></i>
+                <span class="archivo-tipo">PDF</span>
+              </div>
+            </td>
+            <td>
+              <div class="manual-nombre">{{ manual.nombre }}</div>
+            </td>
+            <td>
+              <div class="manual-descripcion">{{ manual.descripcion }}</div>
+            </td>
+            <td>
+              <div class="fecha-info">
+                <span class="fecha">{{ manual.fechaCreacion | date:'dd/MM/yyyy' }}</span>
+                <span class="hora">{{ manual.fechaCreacion | date:'HH:mm' }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="acciones-container">
+                <button
+                  class="btn btn-success"
+                  (click)="descargarManual(manual)"
+                  title="Descargar manual">
+                  <i class="fas fa-download"></i>
+                </button>
+                <button
+                  class="btn btn-edit"
+                  (click)="descargarManual(manual)"
+                  title="Ver manual">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button
+                  class="btn-eliminar"
+                  (click)="eliminarManual(manual)"
+                  title="Eliminar manual">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-  <button type="submit" [disabled]="manualForm.invalid || !archivo">Subir</button>
-</form>
+    <!-- Estado sin resultados -->
+    <div *ngIf="manualesFiltrados.length === 0 && manuales.length > 0" class="no-results">
+      <div class="no-results-icon">
+        <i class="fas fa-search"></i>
+      </div>
+      <h3>Sin resultados</h3>
+      <p>No se encontraron manuales que coincidan con tu búsqueda.</p>
+    </div>
 
-<hr />
+    <!-- Estado vacío -->
+    <div *ngIf="manuales.length === 0" class="empty-state">
+      <div class="empty-icon">
+        <i class="fas fa-file-pdf"></i>
+      </div>
+      <h3>No hay manuales</h3>
+      <p>No se han subido manuales al sistema. Comienza subiendo el primer manual.</p>
+      <button class="btn-primario" (click)="abrirFormulario()">
+        <i class="fas fa-plus"></i>
+        Subir Primer Manual
+      </button>
+    </div>
+  </div>
 
-<h3>Manuales existentes:</h3>
-<div *ngIf="manuales?.length === 0">
-  <p>Sin manuales disponibles.</p>
+  <!-- Modal para subir manual -->
+  <div *ngIf="mostrarFormulario" class="modal-overlay">
+    <div class="modal-manual">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Subir Nuevo Manual</h3>
+        </div>
+
+        <div class="modal-body">
+          <form (ngSubmit)="subirManual()" #form="ngForm">
+            <div class="form-group">
+              <label for="nombre">Nombre del Manual *</label>
+              <input
+                id="nombre"
+                formControlName="nombre"
+                name="nombre"
+                placeholder="Ej: Manual de Usuario PowerGuardian"
+                required
+                maxlength="100"
+              />
+              <div class="form-help">
+                Nombre descriptivo del manual (máximo 100 caracteres)
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="descripcion">Descripción *</label>
+              <textarea
+                id="descripcion"
+                formControlName="descripcion"
+                name="descripcion"
+                placeholder="Describe brevemente el contenido del manual..."
+                required
+                maxlength="500"
+                rows="3"
+              ></textarea>
+              <div class="form-help">
+                Breve descripción del contenido (máximo 500 caracteres)
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="archivo">Archivo PDF *</label>
+              <div class="file-upload-area" (click)="$event.preventDefault(); $event.stopPropagation();">
+                <input
+                  #fileInput
+                  id="archivo"
+                  type="file"
+                  (change)="onFileChange($event)"
+                  accept="application/pdf"
+                  class="file-input"
+                  style="display: none;"
+                />
+                <div class="file-upload-content" (click)="fileInput.click()">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  <p>
+                    <span *ngIf="!archivo">Selecciona un archivo PDF</span>
+                    <span *ngIf="archivo" class="file-selected">
+                      <i class="fas fa-file-pdf"></i>
+                      {{ archivo.name }}
+                    </span>
+                  </p>
+                  <small>Máximo 10MB - Solo archivos PDF</small>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-actions">
+          <button
+            type="button"
+            class="btn-cancelar"
+            (click)="cancelar()"
+            [disabled]="subiendoArchivo">
+            <i class="fas fa-times"></i>
+            Cancelar
+          </button>
+          <button
+            type="button"
+            class="btn-primario"
+            (click)="subirManual()"
+            [disabled]="subiendoArchivo || manualForm.invalid || !archivo">
+            <i class="fas fa-{{ subiendoArchivo ? 'spinner fa-spin' : 'upload' }}"></i>
+            {{ subiendoArchivo ? 'Subiendo...' : 'Subir Manual' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<ul>
-  <li *ngFor="let m of manuales">
-    {{ m.nombre }} — <a [href]="backendUrl + m.urlArchivo" target="_blank">Ver PDF</a>
-    <button (click)="eliminarManual(m.id)"> <i class="fas fa-trash"></i> Eliminar</button>
-  </li>
-</ul>

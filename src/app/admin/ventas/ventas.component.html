@@ -1,0 +1,193 @@
+<div class="ventas-container">
+  <!-- Header de página -->
+  <div class="page-header page-header-with-actions">
+    <div class="header-content">
+      <div class="title-section">
+        <h2 class="header-left">
+          Historial de Ventas
+        </h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- Indicador de carga -->
+  <div *ngIf="cargando" class="loading-container">
+    <i class="fas fa-spinner fa-spin"></i>
+    Cargando historial de ventas...
+  </div>
+
+  <!-- Dashboard de estadísticas -->
+  <div *ngIf="!cargando && ventas.length > 0" class="estadisticas-dashboard">
+    <div class="stats-grid">
+      <div class="stat-card ventas-card">
+        <div class="stat-icon">
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ estadisticas.totalVentas }}</div>
+          <div class="stat-label">Total Ventas</div>
+        </div>
+      </div>
+
+      <div class="stat-card ingresos-card">
+        <div class="stat-icon">
+          <i class="fas fa-dollar-sign"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ estadisticas.ingresoTotal | currency }}</div>
+          <div class="stat-label">Ingresos Totales</div>
+        </div>
+      </div>
+
+      <div class="stat-card promedio-card">
+        <div class="stat-icon">
+          <i class="fas fa-calculator"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ estadisticas.promedioVenta | currency }}</div>
+          <div class="stat-label">Promedio por Venta</div>
+        </div>
+      </div>
+
+      <div class="stat-card hoy-card">
+        <div class="stat-icon">
+          <i class="fas fa-calendar-day"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ estadisticas.ventasHoy }}</div>
+          <div class="stat-label">Ventas Hoy</div>
+        </div>
+      </div>
+
+      <div class="stat-card semana-card">
+        <div class="stat-icon">
+          <i class="fas fa-calendar-week"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ estadisticas.ventasSemana }}</div>
+          <div class="stat-label">Esta Semana</div>
+        </div>
+      </div>
+
+      <div class="stat-card mes-card">
+        <div class="stat-icon">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ estadisticas.ventasMes }}</div>
+          <div class="stat-label">Este Mes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Componente de búsqueda y filtro -->
+  <app-table-search-filter
+    *ngIf="ventas.length > 0"
+    [config]="searchFilterConfig"
+    [totalItems]="ventas.length"
+    [filteredItems]="ventasFiltradas.length"
+    [loading]="cargando"
+    (searchChange)="onSearchFilterChange($event)"
+    (clearFilters)="onClearFilters()"
+  ></app-table-search-filter>
+
+  <!-- Tabla de ventas -->
+  <div *ngIf="!cargando && ventas.length > 0" class="tabla-container">
+    <table class="tabla-moderna">
+      <thead>
+        <tr>
+            <th>SKU</th>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let venta of ventasFiltradas">
+          <!-- SKU -->
+          <td>
+            <span class="sku-badge">{{ venta.sku }}</span>
+          </td>
+
+          <!-- Producto -->
+          <td>
+            <div class="producto-info">
+              <span class="producto-nombre">{{ venta.producto }}</span>
+            </div>
+          </td>
+
+          <!-- Precio -->
+          <td>
+            <span class="precio-value">{{ venta.precio | currency:'USD':'symbol':'1.2-2' }}</span>
+          </td>
+
+          <!-- Fecha -->
+          <td>
+            <div class="fecha-info">
+              <span class="fecha-principal">{{ venta.fechaCompra | date:'dd/MM/yyyy' }}</span>
+              <span class="fecha-hora">{{ venta.fechaCompra | date:'HH:mm' }}</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Estado sin resultados -->
+    <div *ngIf="ventasFiltradas.length === 0 && ventas.length > 0" class="no-results">
+      <div class="no-results-icon">
+        <i class="fas fa-search"></i>
+      </div>
+      <h3>Sin resultados</h3>
+      <p>No se encontraron ventas que coincidan con los filtros aplicados</p>
+    </div>
+  </div>
+
+  <!-- Estado vacío -->
+  <div *ngIf="!cargando && ventas.length === 0" class="empty-state">
+    <div class="empty-icon">
+      <i class="fas fa-chart-line"></i>
+    </div>
+    <h3>Sin ventas registradas</h3>
+    <p>Aún no se han registrado ventas en el sistema</p>
+    <p class="empty-help">
+      Las ventas aparecerán aquí cuando los clientes realicen compras
+    </p>
+  </div>
+
+  <!-- Sección de análisis adicional (opcional) -->
+  <div *ngIf="!cargando && ventas.length > 0" class="analisis-section">
+    <div class="analisis-grid">
+      <!-- Productos más vendidos -->
+      <div class="analisis-card">
+        <div class="card-header">
+          <h3>
+            <i class="fas fa-trophy"></i>
+            Productos Más Vendidos
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="productos-list">
+            <div
+              *ngFor="let item of getProductosMasVendidos(); let i = index"
+              class="producto-item"
+              [class.top-1]="i === 0"
+              [class.top-2]="i === 1"
+              [class.top-3]="i === 2"
+            >
+              <div class="producto-posicion">{{ i + 1 }}</div>
+              <div class="producto-detalle">
+                <span class="producto-nombre">{{ item.producto }}</span>
+                <span class="producto-stats">{{ item.cantidad }} ventas • {{ item.total | currency }}</span>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="getProductosMasVendidos().length === 0" class="sin-datos">
+            <i class="fas fa-info-circle"></i>
+            Sin datos suficientes
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

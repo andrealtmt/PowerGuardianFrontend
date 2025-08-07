@@ -1,0 +1,349 @@
+@import '../../../styles/global';
+
+.proveedor-productos-container {
+    padding: 20px;
+  min-height: 100vh;
+
+  // Page Header
+  .page-header {
+    margin-bottom: 2rem;
+
+    h2 {
+      color: $texto-principal;
+      font-size: 2.2rem;
+      font-weight: $font-semibold;
+      padding: 0rem;
+    }
+
+    .page-description {
+      color: $gris-oscuro;
+      font-size: 1rem;
+      margin: 0;
+      margin: 0 auto;
+    }
+  }
+
+  // Loading Indicator
+  .loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 2rem;
+    color: $azul-oscuro;
+    font-weight: $font-semibold;
+
+    i {
+      font-size: 1.5rem;
+    }
+  }
+
+  // Content Cards
+  .content-card {
+    background: white;
+    border-radius: $radius;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header {
+      background: $azul-oscuro;
+      color: white;
+      padding: 1.25rem 1.5rem;
+
+      h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: $font-semibold;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+        i {
+          font-size: 1.1rem;
+        }
+
+        .count-badge {
+          background: $verde-oscuro;
+          color: white;
+          padding: 0.25rem 0.75rem;
+          border-radius: 20px;
+          font-size: 0.85rem;
+          font-weight: $font-bold;
+          margin-left: auto;
+        }
+      }
+    }
+
+    .card-content {
+      padding: 1.5rem;
+    }
+  }
+
+  // Form Elements
+  .form-grid {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .form-group {
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      color: $texto-principal;
+      font-weight: $font-semibold;
+      font-size: 0.95rem;
+
+      i {
+        color: $azul-oscuro;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  // Action Buttons
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1rem;
+
+    @media (max-width: 768px) {
+      justify-content: stretch;
+
+      button {
+        flex: 1;
+      }
+    }
+  }
+
+  .btn-primary {
+    background: $verde-oscuro;
+    color: white;
+    border: none;
+    padding: 0.875rem 1.5rem;
+    border-radius: $radius;
+    font-weight: $font-semibold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &:hover:not(:disabled) {
+      background: linear-gradient(135deg, darken($verde-oscuro, 5%), $verde-oscuro);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba($verde-oscuro, 0.3);
+    }
+
+    &:disabled {
+      background: $gris-claro;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+
+  .btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  // Table Styles
+  .table-container {
+    overflow-x: auto;
+    border-radius: $radius;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .modern-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+
+    thead {
+      background: $azul-oscuro;
+      color: white;
+
+      th {
+      padding: 16px 12px;
+      color: white;
+      font-weight: 600;
+      text-align: left;
+      border: none;
+      font-size: 0.9em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+
+        i {
+          margin-right: 0.5rem;
+          opacity: 0.9;
+        }
+      }
+    }
+
+    tbody {
+      .table-row {
+        transition: background-color 0.2s ease;
+
+        &:nth-child(even) {
+          background-color: #f8f9fa;
+        }
+
+        &:hover {
+          background-color: lighten($verde-claro, 15%);
+        }
+
+        td {
+          padding: 1rem;
+          border-bottom: 1px solid #e0e0e0;
+          vertical-align: middle;
+
+          &.product-name {
+            color: $texto-principal;
+
+            .product-icon {
+              color: $azul-oscuro;
+              margin-right: 0.5rem;
+            }
+          }
+
+          &.price-cell {
+            .price-value {
+              color: $verde-oscuro;
+              font-weight: $font-semibold;
+              background: lighten($verde-claro, 5%);
+              padding: 0.25rem 0.75rem;
+              border-radius: 20px;
+              font-size: 0.9rem;
+            }
+
+            .no-price {
+              color: $gris-claro;
+              font-style: italic;
+              font-size: 0.9rem;
+            }
+          }
+
+          &.action-cell {
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+
+  // Empty States
+  .empty-state, .welcome-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: $gris-oscuro;
+
+    .empty-icon, .welcome-icon {
+      font-size: 4rem;
+      color: $gris-claro;
+      margin-bottom: 1.5rem;
+    }
+
+    h3, h4 {
+      color: $texto-principal;
+      font-weight: $font-semibold;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+  }
+
+  .welcome-state {
+    background: linear-gradient(135deg, lighten($azul-claro, 20%), lighten($verde-claro, 20%));
+    border-radius: $radius;
+    margin-top: 2rem;
+
+    .welcome-icon {
+      color: $azul-oscuro;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .proveedor-productos-container {
+    padding: 1rem;
+
+    .page-header h2 {
+      font-size: 1.8rem;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .content-card .card-header {
+      padding: 1rem;
+
+      h3 {
+        font-size: 1.1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+
+        .count-badge {
+          margin-left: 0;
+        }
+      }
+    }
+
+    .modern-table {
+      thead th {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.85rem;
+      }
+
+      tbody td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.9rem;
+
+        &.product-name {
+          min-width: 150px;
+        }
+      }
+    }
+  }
+}
+
+// Animation for loading
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.content-card {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+// Custom input focus effects
+.input-icon select:focus,
+.input-icon input:focus {
+  border-color: $verde-oscuro;
+  background-color: lighten($verde-claro, 25%);
+}

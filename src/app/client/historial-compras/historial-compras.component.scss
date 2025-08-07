@@ -1,124 +1,216 @@
 @import 'src/styles/global';
 
-// Estilos generales para las tarjetas de compra
+.historial-container {
+  padding: 24px;
+  min-height: 100vh;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: $gris-oscuro;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+  i {
+    font-size: 4rem;
+    color: $gris-claro;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: $texto-principal;
+  }
+
+  p {
+    font-size: 1rem;
+    margin: 0;
+    color: $gris-oscuro;
+  }
+}
+
+// Estilos para las tarjetas de compra
 .compra-card {
   background: white;
-  padding: 20px;
-  margin: 15px 0;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
+  padding: 24px;
+  margin: 20px 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  }
 
   h4 {
-    color: #2c3e50;
-    margin-bottom: 10px;
+    color: $texto-principal;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 16px 0;
   }
 
   p {
     margin: 8px 0;
-    color: #555;
+    color: $gris-oscuro;
+    font-size: 0.95rem;
+
+    strong {
+      color: $texto-principal;
+      font-weight: 600;
+    }
   }
 
-  img {
-    border-radius: 5px;
-    margin: 10px 0;
+  .status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 12px 0;
+
+    &.success {
+      background: lighten($verde-claro, 10%);
+      color: $verde-oscuro;
+    }
+
+    &.warning {
+      background: lighten(#ffc107, 25%);
+      color: darken(#ffc107, 20%);
+    }
   }
 
-  hr {
+  .divider {
     border: none;
-    border-top: 1px solid #eee;
-    margin: 20px 0 0 0;
+    border-top: 2px solid #f1f3f4;
+    margin: 24px 0;
   }
 }
 
-// Estilos para calificaciones ya existentes
+// Estilos para calificaciones existentes
 .calificacion {
-  margin: 10px 0;
+  margin: 16px 0;
+  padding: 16px;
+  background: lighten($azul-claro, 10%);
+  border-radius: 8px;
+  border-left: 4px solid $azul-oscuro;
+
+  .estrellas-display {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 8px;
+  }
 
   .estrella {
     color: #ffc107;
-    margin-right: 2px;
+    font-size: 1.1rem;
   }
 
   .comentario {
-    margin-top: 8px;
+    margin: 0;
     font-style: italic;
-    color: #666;
+    color: $gris-oscuro;
+    font-size: 0.95rem;
+    line-height: 1.4;
   }
 }
 
 // Estilos para el formulario de reseña
 .resena-form {
-  background: #f8f9fa;
-  padding: 20px;
-  border-radius: 10px;
-  margin-top: 15px;
-  border: 1px solid #dee2e6;
+  background: lighten($verde-claro, 15%);
+  padding: 24px;
+  border-radius: 12px;
+  margin-top: 20px;
+  border: 2px solid $verde-claro;
+  box-shadow: 0 4px 16px rgba($verde-oscuro, 0.1);
 
-  form {
-    .form-group {
-      margin-bottom: 20px;
+  .form-group {
+    margin-bottom: 20px;
 
-      label {
-        display: block;
-        font-weight: 600;
-        color: #2c3e50;
-        margin-bottom: 8px;
-        font-size: 14px;
-      }
-
-      textarea {
-        width: 100%;
-        min-height: 80px;
-        padding: 12px;
-        border: 2px solid #ddd;
-        border-radius: 8px;
-        font-family: inherit;
-        font-size: 14px;
-        resize: vertical;
-        transition: border-color 0.3s ease;
-
-        &:focus {
-          outline: none;
-          border-color: #5983ad;
-          box-shadow: 0 0 0 3px rgba(89, 131, 173, 0.1);
-        }
-
-        &::placeholder {
-          color: #999;
-        }
-      }
+    label {
+      display: block;
+      font-weight: 600;
+      color: $texto-principal;
+      margin-bottom: 10px;
+      font-size: 1rem;
     }
 
-    .form-actions {
+    textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 16px;
+      border: 2px solid $gris-claro;
+      border-radius: 8px;
+      font-family: $font-poppins;
+      font-size: 0.95rem;
+      resize: vertical;
+      transition: all 0.3s ease;
+      color: $texto-principal;
+
+      &:focus {
+        outline: none;
+        border-color: $azul-oscuro;
+        box-shadow: 0 0 0 3px rgba($azul-oscuro, 0.1);
+      }
+
+      &::placeholder {
+        color: $gris-claro;
+        font-style: italic;
+      }
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-start;
+    margin-top: 24px;
+
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
       display: flex;
-      gap: 10px;
-      justify-content: flex-start;
-      margin-top: 20px;
+      align-items: center;
+      gap: 8px;
 
-      button {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
+      &[type="submit"] {
+        background: $verde-oscuro;
+        color: white;
 
-        &[type="submit"] {
-          background-color: #5983ad;
-          color: white;
+        &:hover:not(:disabled) {
+          background: darken($verde-oscuro, 10%);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba($verde-oscuro, 0.3);
+        }
 
-          &:hover:not(:disabled) {
-            background-color: #4a6d91;
-            transform: translateY(-1px);
-          }
+        &:disabled {
+          background: $gris-claro;
+          cursor: not-allowed;
+          transform: none;
+          box-shadow: none;
+        }
+      }
 
-          &:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-            transform: none;
-          }
+      &.btn-cancelar {
+        background: $rojo-error;
+        color: white;
+
+        &:hover {
+          background: darken($rojo-error, 10%);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba($rojo-error, 0.3);
         }
       }
     }
@@ -128,12 +220,12 @@
 // Estilos para las estrellas interactivas
 .estrellas {
   display: flex;
-  gap: 5px;
-  margin: 10px 0;
+  gap: 6px;
+  margin: 12px 0;
 }
 
 .estrella-interactiva {
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: #ddd;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -146,41 +238,118 @@
     color: #ddd;
   }
 
-  &:hover,
-  &.hover {
+  &:hover {
     color: #ffeb3b;
     transform: scale(1.1);
   }
 }
 
 .calificacion-texto {
-  font-size: 14px;
-  color: #666;
-  margin: 8px 0;
+  font-size: 0.95rem;
+  color: $gris-oscuro;
+  margin: 12px 0;
   font-weight: 500;
-}
-
-// Estilos para estados y alertas
-.text-success {
-  color: #28a745 !important;
-}
-
-.text-warning {
-  color: #ffc107 !important;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid $gris-claro;
 }
 
 // Botones generales
-button {
-  padding: 8px 16px;
+.btn-resena {
+  background: $azul-oscuro;
+  color: white;
+  padding: 10px 20px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 14px;
   transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover:not(:disabled) {
+    background: darken($azul-oscuro, 10%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba($azul-oscuro, 0.3);
+  }
 
   &:disabled {
+    background: $gris-claro;
     cursor: not-allowed;
     opacity: 0.6;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .historial-container {
+    padding: 16px;
+
+    h2 {
+      font-size: 1.8rem;
+      text-align: center;
+    }
+  }
+
+  .compra-card {
+    padding: 20px;
+    margin: 16px 0;
+
+    h4 {
+      font-size: 1.2rem;
+    }
+  }
+
+  .resena-form {
+    padding: 20px;
+
+    .form-actions {
+      flex-direction: column;
+
+      button {
+        justify-content: center;
+      }
+    }
+  }
+
+  .estrellas {
+    justify-content: center;
+  }
+
+  .estrella-interactiva {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .historial-container {
+    padding: 12px;
+
+    h2 {
+      font-size: 1.6rem;
+    }
+  }
+
+  .compra-card {
+    padding: 16px;
+    margin: 12px 0;
+
+    h4 {
+      font-size: 1.1rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
+  }
+
+  .estrella-interactiva {
+    font-size: 1.6rem;
   }
 }
 

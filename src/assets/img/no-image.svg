@@ -1,0 +1,8 @@
+<!-- SVG placeholder para productos sin imagen -->
+<svg width="150" height="150" viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="150" height="150" fill="#f8f9fa"/>
+  <g transform="translate(50, 45)">
+    <path d="M25 15L20 20H5C2.79 20 1 21.79 1 24V44C1 46.21 2.79 48 5 48H45C47.21 48 49 46.21 49 44V24C49 21.79 47.21 20 45 20H30L25 15ZM25 38C21.14 38 18 34.86 18 31C18 27.14 21.14 24 25 24C28.86 24 32 27.14 32 31C32 34.86 28.86 38 25 38Z" fill="#dee2e6"/>
+  </g>
+  <text x="75" y="85" text-anchor="middle" fill="#6c757d" font-family="Arial, sans-serif" font-size="10">Sin imagen</text>
+</svg>

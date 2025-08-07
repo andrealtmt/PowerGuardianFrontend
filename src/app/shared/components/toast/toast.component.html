@@ -1,0 +1,45 @@
+<div
+  *ngIf="visible"
+  class="toast"
+  [ngClass]="['toast-' + (config.type || 'info'), { 'toast-animating-out': isAnimatingOut }]"
+  (mouseenter)="pauseAutoClose()"
+  (mouseleave)="resumeAutoClose()">
+
+  <div class="toast-content">
+    <div class="toast-icon">
+      <i [class]="getIcon()"></i>
+    </div>
+
+    <div class="toast-body">
+      <div class="toast-title" *ngIf="config.title">
+        {{ config.title }}
+      </div>
+      <div class="toast-message">
+        {{ config.message }}
+      </div>
+    </div>
+
+    <div class="toast-actions">
+      <button
+        *ngIf="config.actionText && config.actionHandler"
+        class="toast-action-btn"
+        (click)="onActionClick()">
+        {{ config.actionText }}
+      </button>
+
+      <button
+        class="toast-close-btn"
+        (click)="close()"
+        aria-label="Cerrar notificación">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Barra de progreso -->
+  <div
+    *ngIf="!config.persistent"
+    class="toast-progress"
+    [style.animation-duration]="(config.duration || getDefaultDuration()) + 'ms'">
+  </div>
+</div>

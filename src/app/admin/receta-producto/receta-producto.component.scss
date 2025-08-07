@@ -1,0 +1,210 @@
+@import '../../../styles/global';
+
+.receta-producto-container {
+  @extend .page-container;
+
+  .producto-selector-container {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    .selector-grupo {
+      max-width: 400px;
+
+      label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 0.5rem;
+
+        i {
+          color: #6366f1;
+        }
+      }
+    }
+  }
+
+  .producto-info-card {
+    background: white;
+    border-radius: 12px;
+    border: 2px solid $texto-principal;
+    color: $texto-principal;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+
+    .card-header {
+      padding: 1.5rem 1.5rem 0;
+
+      h3 {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+    }
+
+    .card-body {
+      padding: 1rem 1.5rem 1.5rem;
+
+      .info-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+      }
+
+      .stat-item {
+        .stat-label {
+          display: block;
+          font-size: 0.875rem;
+          opacity: 0.9;
+          margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+          display: block;
+          font-size: 1.125rem;
+          font-weight: 700;
+
+          &.precio-venta {
+            color: $verde-oscuro;
+          }
+
+          &.costo-estimado {
+            color: #fbbf24;
+          }
+
+          &.margen {
+            color: #ef4444;
+
+            &.margen-positivo {
+              color: #34d399;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .actions-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+  }
+
+  // Estilos específicos de la tabla
+  .ingrediente-info {
+    .ingrediente-nombre {
+      font-weight: 500;
+      color: #1f2937;
+    }
+  }
+
+  .unidad-badge {
+    @include badge-style(#ede9fe, #8b5cf6);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .cantidad-value {
+    font-weight: 600;
+    color: #059669;
+  }
+
+  .costo-unitario {
+    font-weight: 500;
+    color: #6b7280;
+  }
+
+  .costo-total {
+    font-weight: 700;
+    color: $verde-oscuro;
+    font-size: 1rem;
+  }
+
+  .total-row {
+    background-color: #f8fafc;
+    border-top: 2px solid #e5e7eb;
+
+    .total-label {
+      text-align: right;
+      font-size: 1rem;
+      color: #374151;
+    }
+
+    .total-value {
+      font-size: 1.25rem;
+      color: $verde-oscuro;
+    }
+  }
+
+  // Estilos del modal (ahora usando clases globales)
+  .modal-ingrediente {
+    .form-help {
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-top: 0.25rem;
+      font-style: italic;
+    }
+  }
+
+  // Estados especiales
+  .no-selection {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #6b7280;
+
+    .no-selection-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #d1d5db;
+    }
+
+    h3 {
+      color: #374151;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  }
+
+  // Responsive
+  @media (max-width: 768px) {
+    .producto-info-card .card-body .info-stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tabla-moderna {
+      thead th:nth-child(4),
+      tbody td:nth-child(4) {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    .producto-info-card .card-body .info-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .tabla-moderna {
+      thead th:nth-child(3),
+      tbody td:nth-child(3) {
+        display: none;
+      }
+    }
+
+    .actions-container {
+      justify-content: center;
+    }
+  }
+}
