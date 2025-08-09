@@ -39,4 +39,8 @@ export class DeviceService {
   emitirRecarga() {
     this.recargaSubject.next();
   }
+
+  cambiarEstadoMQTT(estado: 'ON' | 'OFF') {
+    return this.http.post(`https://localhost:7009/api/control/relay`, { estado });
+  }
 }
