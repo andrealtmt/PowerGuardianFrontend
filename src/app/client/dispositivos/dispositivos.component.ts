@@ -71,7 +71,7 @@ export class DispositivosComponent implements OnInit {
       const nuevoEstado = dispositivo.estado === 'on' ? 'off' : 'on';
       this.loadingId = dispositivo.id;
 
-      const mqttEstado = nuevoEstado === 'on' ? 'ON' : 'OFF';
+      const mqttEstado = nuevoEstado === 'on' ? 'OFF' : 'ON';
 
       this.deviceService.cambiarEstadoMQTT(mqttEstado).subscribe({
         next: () => {
